@@ -1,0 +1,71 @@
+{
+    "version": "0.1.0",
+
+    "php": {
+        "version": "8.3.7",
+        "download_url": "https://windows.php.net/downloads/releases/php-8.3.7-src.zip",
+        "archive_url": "https://windows.php.net/downloads/releases/archives/php-8.3.7-Win32-vs16-x64.zip"
+    },
+
+    "extensions": [
+        {
+            "name": "win32std",
+            "repo": "https://github.com/ZmotriN/win32std.git",
+            "builtin": false,
+            "mandatory": true,
+            "libraries": []
+        },
+        {
+            "name": "winbinder",
+            "repo": "https://github.com/ZmotriN/Winbinder-PHP8.git",
+            "builtin": false,
+            "mandatory": false,
+            "libraries": []
+        },
+        {
+            "name": "wcli",
+            "repo": "https://github.com/ZmotriN/php-wcli.git",
+            "builtin": false,
+            "mandatory": false,
+            "libraries": []
+        },
+        {
+            "name": "curl",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "libraries": ["curl"]
+        }
+    ],
+    
+    "libraries": [
+        {
+            "name": "openssl",
+            "version": "3.0.13",
+            "download_url": "https://www.openssl.org/source/openssl-3.0.13.tar.gz",
+            "install_script": "install_openssl.php",
+            "dependancies": []
+        },
+        {
+            "name": "nghttp2",
+            "version": "1.51.0",
+            "download_url": "https://github.com/winlibs/nghttp2/archive/refs/tags/nghttp2-1.51.0.zip",
+            "install_script": "install_nghttp2.php",
+            "dependancies": []
+        },
+        {
+            "name": "libssh2",
+            "version": "1.10.0",
+            "download_url": "https://github.com/winlibs/libssh2/archive/refs/tags/libssh2-1.10.0.zip",
+            "install_script": "install_libssh2.php",
+            "dependancies": ["openssl"]
+        },
+        {
+            "name": "curl",
+            "version": "8.7.1",
+            "download_url": "https://curl.se/download/curl-8.7.1.zip",
+            "install_script": "install_curl.php",
+            "dependancies": ["openssl", "libssh2", "nghttp2"]
+        }
+    ]
+}
