@@ -13,6 +13,7 @@
             "repo": "https://github.com/ZmotriN/win32std.git",
             "builtin": false,
             "mandatory": true,
+            "dependancies": [],
             "libraries": []
         },
         {
@@ -20,6 +21,7 @@
             "repo": "https://github.com/ZmotriN/Winbinder-PHP8.git",
             "builtin": false,
             "mandatory": false,
+            "dependancies": [],
             "libraries": []
         },
         {
@@ -27,6 +29,7 @@
             "repo": "https://github.com/ZmotriN/php-wcli.git",
             "builtin": false,
             "mandatory": false,
+            "dependancies": [],
             "libraries": []
         },
         {
@@ -34,11 +37,27 @@
             "repo": "",
             "builtin": true,
             "mandatory": false,
+            "dependancies": ["bz2"],
             "libraries": ["curl"]
+        },
+        {
+            "name": "bz2",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "dependancies": [],
+            "libraries": ["libbzip2"]
         }
     ],
     
     "libraries": [
+        {
+            "name": "libbzip2",
+            "version": "1.0.8",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libbzip2-1.0.8-vs16-x64.zip",
+            "install_script": "install_libbzip2.php",
+            "dependancies": []
+        },
         {
             "name": "openssl",
             "version": "3.0.13",

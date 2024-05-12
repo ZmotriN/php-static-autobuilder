@@ -13,8 +13,12 @@ draw_header("PHP Static Autobuilder");
 // phpinfo(); return;
 
 $MATRIX = json_decode(file_get_contents(DIR.'matrix.json'));
-$CONFIG = parse_ini_file(DIR.'configs\default.ini', true);
+$CONFIG = parse_ini_file(DIR.'configs\default.ini', true, INI_SCANNER_TYPED);
 
+
+
+
+// TODO: CHECK NASM
 
 
 /**
@@ -179,6 +183,9 @@ if(!is_dir(ARCH_PATH)) {
 }
 
 
+// TODO: CLONE MASTER
+
+
 
 echo RN.RN;
 draw_header("Library dependancies");
@@ -187,17 +194,70 @@ draw_header("Library dependancies");
 
 
 
+$libraries = [];
 
 
+define('DEPS_PATH', ARCH_PATH.'deps\\');
+
+foreach($MATRIX->extensions as $ext)
+    if(isset($CONFIG['extensions'][$ext->name]))
+        if($CONFIG['extensions'][$ext->name])
+            foreach($ext->dependancies as $dep)
+                $CONFIG['extensions'][$dep] = true;
+foreach($MATRIX->extensions as $ext)
+    if(isset($CONFIG['extensions'][$ext->name]))
+        if($CONFIG['extensions'][$ext->name])
+            foreach($ext->libraries as $lib)
+                $libraries[] = $lib;
+foreach($MATRIX->libraries as $lib)
+    if(in_array($lib->name, $libraries))
+        foreach($lib->dependancies as $dep)
+            $libraries[] = $dep;
+
+
+
+foreach($MATRIX->libraries as $lib) {
+    if(in_array($lib->name, $libraries)) {
+        // print_r($lib);
+        include(DIR.'master\libraries\\' . $lib->install_script);
+
+
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function shell_exec_vs16($taskfile, $verbose = false)
+{
+    if($verbose) {
+        passthru(escapeshellarg(SCRIPT_VS16) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
+    } else {
+        shell_exec(escapeshellarg(SCRIPT_VS16) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
+    }
+}
 
 
 
 function shell_exec_vs16_phpsdk($taskfile, $verbose = false)
 {
     if($verbose) {
-        passthru(escapeshellarg(SCRIPT_VS16_PHPSDK) . ' ' . escapeshellarg($taskfile));
+        passthru(escapeshellarg(SCRIPT_VS16_PHPSDK) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
     } else {
-        shell_exec(escapeshellarg(SCRIPT_VS16_PHPSDK) . ' ' . escapeshellarg($taskfile));
+        shell_exec(escapeshellarg(SCRIPT_VS16_PHPSDK) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
     }
 }
 
@@ -370,8 +430,7 @@ function rename_wait($src, $dst, $sec = 10) {
 function unzip($zipfile, $dest)
 {
     $label = "Unzipping " . pathinfo($zipfile, PATHINFO_BASENAME);
-    wcli_echo($label, White);
-    wcli_echo('...', Grey);
+    draw_line($label, 'running', Yellow);
     $zip = new ZipArchive;
     if ($zip->open($zipfile) === TRUE) {
         $zip->extractTo($dest);
@@ -381,6 +440,69 @@ function unzip($zipfile, $dest)
     } else {
         draw_status($label, 'failed', Red);
         return false;
+    }
+}
+
+
+function untar($tarfile, $dest)
+{
+
+    $label = "Unzipping " . pathinfo($tarfile, PATHINFO_BASENAME);
+    draw_line($label, 'running', Yellow);
+    
+    $tmpfile = preg_replace('#\.gz$#i', '', $tarfile);
+    if(is_file($tmpfile)) unlink($tmpfile);
+    $pd = new PharData($tarfile);
+    if(!@$pd->decompress()) {
+        draw_status($label, 'failed', Red);
+        return false;
+    }
+
+    $phar = new PharData($tmpfile);
+    if(!@$phar->extractTo($dest, null, true)) {
+        draw_status($label, 'failed', Red);
+        return false;
+    } else {
+        draw_status($label, 'complete', Green);
+        return true;
+    }
+}
+
+
+function zip_fist_dir($zipfile)
+{
+    $zip = new ZipArchive;
+    if (!$zip->open($zipfile) === TRUE) return false;
+    if(!$first = $zip->getNameIndex(0)) return false;
+    $zip->close();
+    return rtrim($first, '/');
+}
+
+
+function install_deps($path)
+{
+    foreach(dig($path . '*') as $file) {
+        $dest = DEPS_PATH . str_replace($path, '', $file);
+        $destdir = pathinfo($dest, PATHINFO_DIRNAME);
+        if(!is_dir($destdir) && !@mkdir($destdir, 0777, true)) return false;
+        if(!@copy($file, $dest)) return false;
+    }
+    return true;
+}
+
+
+function dig($path)
+{
+    $patt = pathinfo($path, PATHINFO_BASENAME);
+    $path = pathinfo($path, PATHINFO_DIRNAME);
+    if (!$path = realpath($path)) return;
+    else $path .= '\\';
+    foreach (glob($path . $patt) as $file) {
+        if (is_dir($file)) continue;
+        else yield $file;
+    }
+    foreach (glob($path . '*', GLOB_ONLYDIR) as $dir) {
+        foreach (call_user_func(__FUNCTION__, $dir . '\\' . $patt) as $file) yield $file;
     }
 }
 
