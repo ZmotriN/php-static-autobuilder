@@ -3,14 +3,11 @@
 const VERSION = "0.1.0";
 const TMP = DIR.'tmp\\';
 const MAX_BUFFER_WIDTH = 100;
-
+const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+const SPEED_DEV = true;
 
 
 draw_header("PHP Static Autobuilder");
-
-
-
-// phpinfo(); return;
 
 $MATRIX = json_decode(file_get_contents(DIR.'matrix.json'));
 $CONFIG = parse_ini_file(DIR.'configs\default.ini', true, INI_SCANNER_TYPED);
@@ -19,6 +16,7 @@ $CONFIG = parse_ini_file(DIR.'configs\default.ini', true, INI_SCANNER_TYPED);
 
 
 // TODO: CHECK NASM
+// TODO: CHECK RM
 
 
 /**
@@ -60,13 +58,13 @@ if($gitpath = verify_deps_git()) {
 /**
  * Verify Patch
  */
-if($patchpath = verify_deps_patch()) {
-    define('PATCH_PATH', $patchpath);
-    draw_status("Patch", "found", Green);
-} else {
-    draw_status("Patch", "missing", Red);
-    exit_error();
-}
+// if($patchpath = verify_deps_patch()) {
+//     define('PATCH_PATH', $patchpath);
+//     draw_status("Patch", "found", Green);
+// } else {
+//     draw_status("Patch", "missing", Red);
+//     exit_error();
+// }
 
 
 /**
@@ -186,19 +184,21 @@ if(!is_dir(ARCH_PATH)) {
 // TODO: CLONE MASTER
 
 
-
+/**
+ * Library dependancies
+ */
 echo RN.RN;
 draw_header("Library dependancies");
-
-
-
-
-
-$libraries = [];
-
-
 define('DEPS_PATH', ARCH_PATH.'deps\\');
 
+
+/**
+ * Load library tree
+ */
+$libraries = [];
+foreach($MATRIX->extensions as $ext)
+    if($ext->mandatory)
+        $CONFIG['extensions'][$ext->name] = true;
 foreach($MATRIX->extensions as $ext)
     if(isset($CONFIG['extensions'][$ext->name]))
         if($CONFIG['extensions'][$ext->name])
@@ -213,23 +213,40 @@ foreach($MATRIX->libraries as $lib)
     if(in_array($lib->name, $libraries))
         foreach($lib->dependancies as $dep)
             $libraries[] = $dep;
+foreach($MATRIX->libraries as $lib)
+    if($lib->mandatory)
+        $libraries[] = $lib->name;
 
 
-
-foreach($MATRIX->libraries as $lib) {
-    if(in_array($lib->name, $libraries)) {
-        // print_r($lib);
+/**
+ * Install libraries
+ */
+foreach($MATRIX->libraries as $lib)
+    if(in_array($lib->name, $libraries))
         include(DIR.'master\libraries\\' . $lib->install_script);
 
 
-        
-    }
-}
+
+/**
+ * Install PHP
+ */
+echo RN.RN;
+draw_header("PHP " . $MATRIX->php->version);
+include(DIR.'master\php\install_php.php');
+define('PHP_PATH', $path);
 
 
 
 
 
+/**
+ * Install Extensions
+ */
+define('EXT_PATH', PHP_PATH.'ext\\');
+foreach($MATRIX->extensions as $ext)
+    if(!$ext->builtin)
+        if(isset($CONFIG['extensions'][$ext->name]))
+            include(DIR.'master\php\install_extension.php');
 
 
 
@@ -251,7 +268,6 @@ function shell_exec_vs16($taskfile, $verbose = false)
 }
 
 
-
 function shell_exec_vs16_phpsdk($taskfile, $verbose = false)
 {
     if($verbose) {
@@ -262,10 +278,28 @@ function shell_exec_vs16_phpsdk($taskfile, $verbose = false)
 }
 
 
-function draw_status(string $label, string $status, int $color, int $max = MAX_BUFFER_WIDTH)
+function git_clone($repo, $dir)
 {
-    draw_line($label, $status, $color, $max);
+    shell_exec('git clone ' . escapeshellarg($repo) . ' '.escapeshellarg(rtrim($dir, '\\')) . ' 2>&1');
+    return is_dir($dir);
+}
+
+
+function git_update($dir)
+{
+    $lastdir = getcwd();
+    chdir($dir);
+    shell_exec('git pull 2>&1');
+    chdir($lastdir);
+    return true;
+}
+
+
+function draw_status(string $label, string $status, int $color, bool $throw = false, $msg = "An error occured")
+{
+    draw_line($label, $status, $color, MAX_BUFFER_WIDTH);
     echo RN;
+    if($throw) exit_error($msg);
 }
 
 
@@ -294,7 +328,7 @@ function draw_header(string $name, int $max = MAX_BUFFER_WIDTH)
     }
     wcli_echo(str_repeat('*', $bw).RN, White|Bright);
     wcli_echo('*'.str_repeat(' ', ($bw - 2)).'*'.RN, White|Bright);
-    
+
     $left = floor(($bw - 2 - strlen($name)) / 2);
     wcli_echo('*'.str_repeat(' ', $left));
     wcli_echo(strtoupper($name), Aqua);
@@ -309,14 +343,14 @@ function draw_header(string $name, int $max = MAX_BUFFER_WIDTH)
 function exit_error($msg = "An error occured")
 {
     $msg .= ". Press a key to exit.";
-    wcli_echo(RN.$msg, Red);
+    wcli_echo(RN.RN.$msg, Red);
     wcli_get_key();
     exit(1);
 }
 
 
 function download_file($url, $dest, $label) {
-    $label = 'Downloading '.$label;
+    $label = 'Download '.$label;
     $lastsize = -1;
     if($result = curl_get_contents($url, $dest, function($prog, $downbytes) use($label, &$lastsize) {
         $size = sizetostr($downbytes);
@@ -345,6 +379,7 @@ function curl_get_file_size($url)
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_USERAGENT, USER_AGENT);
 
     $data = curl_exec($curl);
     curl_close($curl);
@@ -358,6 +393,25 @@ function curl_get_file_size($url)
     }
 
     return $result;
+}
+
+
+function curl_file_exists(string $url)
+{
+    $curl = curl_init($url);
+
+    curl_setopt($curl, CURLOPT_NOBODY, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_USERAGENT, USER_AGENT);
+
+    curl_exec($curl);
+    $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    return $code == 200;
 }
 
 
@@ -375,6 +429,7 @@ function curl_get_contents($file, $dest = null, $clb = null)
 		CURLOPT_NOPROGRESS     => ($clb ? false : true),
 		CURLOPT_RETURNTRANSFER => ($dest ? false : true),
 		CURLOPT_COOKIEFILE  => '',
+        CURLOPT_USERAGENT => USER_AGENT,
 	]);
 	if($clb){
 		$lastprog = -1;
@@ -429,7 +484,7 @@ function rename_wait($src, $dst, $sec = 10) {
 
 function unzip($zipfile, $dest)
 {
-    $label = "Unzipping " . pathinfo($zipfile, PATHINFO_BASENAME);
+    $label = "Unzip " . pathinfo($zipfile, PATHINFO_BASENAME);
     draw_line($label, 'running', Yellow);
     $zip = new ZipArchive;
     if ($zip->open($zipfile) === TRUE) {
@@ -447,9 +502,9 @@ function unzip($zipfile, $dest)
 function untar($tarfile, $dest)
 {
 
-    $label = "Unzipping " . pathinfo($tarfile, PATHINFO_BASENAME);
+    $label = "Unzip " . pathinfo($tarfile, PATHINFO_BASENAME);
     draw_line($label, 'running', Yellow);
-    
+
     $tmpfile = preg_replace('#\.gz$#i', '', $tarfile);
     if(is_file($tmpfile)) unlink($tmpfile);
     $pd = new PharData($tarfile);
@@ -469,7 +524,7 @@ function untar($tarfile, $dest)
 }
 
 
-function zip_fist_dir($zipfile)
+function zip_first_dir($zipfile)
 {
     $zip = new ZipArchive;
     if (!$zip->open($zipfile) === TRUE) return false;
@@ -504,6 +559,14 @@ function dig($path)
     foreach (glob($path . '*', GLOB_ONLYDIR) as $dir) {
         foreach (call_user_func(__FUNCTION__, $dir . '\\' . $patt) as $file) yield $file;
     }
+}
+
+
+function rm_dir($dir)
+{
+    if(!is_dir($dir)) return false;
+    shell_exec('rm -rf ' . escapeshellarg(realpath($dir)) . ' 2>&1');
+    return true;
 }
 
 

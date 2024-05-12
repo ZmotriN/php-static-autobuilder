@@ -1,0 +1,11 @@
+--- "..\\php-8.3.7-original\\ext\\standard\\info.c"	2024-05-07 12:35:26.000000000 -0400
++++ "ext\\standard\\info.c"	2024-05-12 13:55:10.543215200 -0400
+@@ -1025,7 +1025,7 @@
+ 		php_print_gpcse_array(ZEND_STRL("_POST"));
+ 		php_print_gpcse_array(ZEND_STRL("_FILES"));
+ 		php_print_gpcse_array(ZEND_STRL("_COOKIE"));
+-		php_print_gpcse_array(ZEND_STRL("_SERVER"));
++		// php_print_gpcse_array(ZEND_STRL("_SERVER"));
+ 		php_print_gpcse_array(ZEND_STRL("_ENV"));
+ 		php_info_print_table_end();
+ 	}

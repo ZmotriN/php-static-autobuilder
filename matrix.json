@@ -37,8 +37,16 @@
             "repo": "",
             "builtin": true,
             "mandatory": false,
-            "dependancies": ["bz2"],
+            "dependancies": [],
             "libraries": ["curl"]
+        },
+        {
+            "name": "openssl",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "dependancies": [],
+            "libraries": ["openssl"]
         },
         {
             "name": "bz2",
@@ -47,15 +55,50 @@
             "mandatory": false,
             "dependancies": [],
             "libraries": ["libbzip2"]
+        },
+        {
+            "name": "phar",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "dependancies": ["bz2", "openssl"],
+            "libraries": []
+        },
+        {
+            "name": "igbinary",
+            "repo": "https://github.com/igbinary/igbinary.git",
+            "builtin": false,
+            "mandatory": false,
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "timezonedb",
+            "repo": "",
+            "url": "https://pecl.php.net/get/timezonedb-2024.1.tgz",
+            "version": "2024.1",
+            "builtin": false,
+            "mandatory": false,
+            "dependancies": [],
+            "libraries": []
         }
     ],
     
     "libraries": [
         {
+            "name": "zlib",
+            "version": "1.2.12",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/zlib-1.2.12-vs16-x64.zip",
+            "install_script": "install_zlib.php",
+            "mandatory": true,
+            "dependancies": []
+        },
+        {
             "name": "libbzip2",
             "version": "1.0.8",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libbzip2-1.0.8-vs16-x64.zip",
             "install_script": "install_libbzip2.php",
+            "mandatory": false,
             "dependancies": []
         },
         {
@@ -63,6 +106,7 @@
             "version": "3.0.13",
             "download_url": "https://www.openssl.org/source/openssl-3.0.13.tar.gz",
             "install_script": "install_openssl.php",
+            "mandatory": false,
             "dependancies": []
         },
         {
@@ -70,6 +114,7 @@
             "version": "1.51.0",
             "download_url": "https://github.com/winlibs/nghttp2/archive/refs/tags/nghttp2-1.51.0.zip",
             "install_script": "install_nghttp2.php",
+            "mandatory": false,
             "dependancies": []
         },
         {
@@ -77,6 +122,7 @@
             "version": "1.10.0",
             "download_url": "https://github.com/winlibs/libssh2/archive/refs/tags/libssh2-1.10.0.zip",
             "install_script": "install_libssh2.php",
+            "mandatory": false,
             "dependancies": ["openssl"]
         },
         {
@@ -84,7 +130,8 @@
             "version": "8.7.1",
             "download_url": "https://curl.se/download/curl-8.7.1.zip",
             "install_script": "install_curl.php",
-            "dependancies": ["openssl", "libssh2", "nghttp2"]
+            "mandatory": false,
+            "dependancies": ["openssl", "libssh2", "nghttp2", "zlib"]
         }
     ]
 }

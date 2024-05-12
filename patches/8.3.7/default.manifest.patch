@@ -1,0 +1,19 @@
+--- "..\\php-8.3.7-original\\win32\\build\\default.manifest"	2024-05-07 12:35:26.000000000 -0400
++++ "win32\\build\\default.manifest"	2024-05-12 14:10:27.638713800 -0400
+@@ -24,4 +24,16 @@
+            <ws2:longPathAware>true</ws2:longPathAware>
+        </windowsSettings>
+    </application>
++   <dependency>
++       <dependentAssembly>
++           <assemblyIdentity
++               type="win32"
++               name="Microsoft.Windows.Common-Controls"
++               version="6.0.0.0"
++               processorArchitecture="*"
++               publicKeyToken="6595b64144ccf1df"
++               language="*"
++           />
++       </dependentAssembly>
++   </dependency>
+ </assembly>

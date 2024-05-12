@@ -26,8 +26,7 @@ file_put_contents($batfile, $bat);
 shell_exec_vs16($batfile);
 
 if(!is_file($path . 'libcrypto_static.lib') || !is_file($path . 'libssl_static.lib')) {
-    draw_status($label, "failed", Red);
-    exit_error();
+    draw_status($label, "failed", Red, true);
 } else {
     draw_status($label, "complete", Green);
 }
@@ -37,43 +36,30 @@ $label = "Install " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 
 $builddir = $path . 'build\\';
-if(!is_dir($builddir) && !@mkdir($builddir, 0777, true)) {
-    draw_status($label, "failed", Red);
-    exit_error();
-}
+if(!is_dir($builddir) && !@mkdir($builddir, 0777, true))
+    draw_status($label, "failed", Red, true);
 
 $libdir = $builddir . 'lib\\';
-if(!is_dir($libdir) && !@mkdir($libdir, 0777, true)) {
-    draw_status($label, "failed", Red);
-    exit_error();
-}
+if(!is_dir($libdir) && !@mkdir($libdir, 0777, true))
+    draw_status($label, "failed", Red, true);
 
 $incdir = $builddir . 'include\openssl\\';
-if(!is_dir($incdir) && !@mkdir($incdir, 0777, true)) {
-    draw_status($label, "failed", Red);
-    exit_error();
-}
+if(!is_dir($incdir) && !@mkdir($incdir, 0777, true))
+    draw_status($label, "failed", Red, true);
 
-if(!@copy($path . 'libcrypto_static.lib', $libdir . 'libcrypto.lib')) {
-    draw_status($label, "failed", Red);
-    exit_error();
-}
+if(!@copy($path . 'libcrypto_static.lib', $libdir . 'libcrypto.lib'))
+    draw_status($label, "failed", Red, true);
 
-if(!@copy($path . 'libssl_static.lib', $libdir . 'libssl.lib')) {
-    draw_status($label, "failed", Red);
-    exit_error();
-}
+if(!@copy($path . 'libssl_static.lib', $libdir . 'libssl.lib'))
+    draw_status($label, "failed", Red, true);
 
-foreach(glob($path . 'include\openssl\*') as $file) {
-    if(!@copy($file, $incdir . pathinfo($file, PATHINFO_BASENAME))) {
-        draw_status($label, "failed", Red);
-        exit_error();
-    }
-}
+foreach(glob($path . 'include\openssl\*') as $file)
+    if(!@copy($file, $incdir . pathinfo($file, PATHINFO_BASENAME)))
+        draw_status($label, "failed", Red, true);
+
 
 if(!install_deps($builddir)) {
-    draw_status($label, "failed", Red);
-    exit_error();
+    draw_status($label, "failed", Red, true);
 } else {
     draw_status($label, "complete", Green);
 }

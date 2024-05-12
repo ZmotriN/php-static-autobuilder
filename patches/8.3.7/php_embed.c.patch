@@ -1,0 +1,42 @@
+--- "..\\php-8.3.7-original\\sapi\\embed\\php_embed.c"	2024-05-07 12:35:26.000000000 -0400
++++ "sapi\\embed\\php_embed.c"	2024-05-12 13:51:34.285573400 -0400
+@@ -19,20 +19,26 @@
+ #include "ext/standard/dl_arginfo.h"
+ 
+ #ifdef PHP_WIN32
+-#include <io.h>
+-#include <fcntl.h>
++	#include <io.h>
++	#include <fcntl.h>
++	BOOL php_win32_ioutil_init(void);
++	void php_win32_init_gettimeofday(void);
+ #endif
+ 
+ const char HARDCODED_INI[] =
++	"display_errors=1\n"
+ 	"html_errors=0\n"
+ 	"register_argc_argv=1\n"
+ 	"implicit_flush=1\n"
+ 	"output_buffering=0\n"
++	"phar.readonly=0\n"
++	"zlib.output_compression=0\n"
+ 	"max_execution_time=0\n"
++	"memory_limit=3072M\n"
+ 	"max_input_time=-1\n\0";
+ 
+ #if defined(PHP_WIN32) && defined(ZTS)
+-ZEND_TSRMLS_CACHE_DEFINE()
++// ZEND_TSRMLS_CACHE_DEFINE()
+ #endif
+ 
+ static char* php_embed_read_cookies(void)
+@@ -180,6 +186,9 @@
+ 
+ 	zend_signal_startup();
+ 
++	php_win32_ioutil_init();
++	php_win32_init_gettimeofday();
++
+ 	/* SAPI initialization (SINIT)
+ 	 *
+ 	 * Initialize the SAPI globals (memset to 0). After this point we can set

@@ -1,0 +1,20 @@
+--- "..\\php-8.3.7-original\\win32\\build\\confutils.js"	2024-05-07 12:35:26.000000000 -0400
++++ "win32\\build\\confutils.js"	2024-05-12 14:22:28.008527900 -0400
+@@ -3450,7 +3450,7 @@
+ function toolset_setup_build_mode()
+ {
+ 	if (PHP_DEBUG == "yes") {
+-		ADD_FLAG("CFLAGS", "/LDd /MDd /Od /D _DEBUG /D ZEND_DEBUG=1 " +
++		ADD_FLAG("CFLAGS", "/LDd /MTd /Od /D _DEBUG /D ZEND_DEBUG=1 " +
+ 			(TARGET_ARCH == 'x86'?"/ZI":"/Zi"));
+ 		ADD_FLAG("LDFLAGS", "/debug");
+ 		// Avoid problems when linking to release libraries that use the release
+@@ -3462,7 +3462,7 @@
+ 			ADD_FLAG("CFLAGS", "/Zi");
+ 			ADD_FLAG("LDFLAGS", "/incremental:no /debug /opt:ref,icf");
+ 		}
+-		ADD_FLAG("CFLAGS", "/LD /MD");
++		ADD_FLAG("CFLAGS", "/LD /MT");
+ 		if (PHP_SANITIZER == "yes" && CLANG_TOOLSET) {
+ 			ADD_FLAG("CFLAGS", "/Od /D NDebug /D NDEBUG /D ZEND_WIN32_NEVER_INLINE /D ZEND_DEBUG=0");
+ 		} else {
