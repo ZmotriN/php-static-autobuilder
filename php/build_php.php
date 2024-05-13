@@ -15,6 +15,7 @@ if(is_dir(BUILD_PATH))
 // Create build bat file
 $bat = '@echo off' . RN;
 $bat .= 'cd ' . escapeshellarg(PHP_PATH) . RN;
+if($CONFIG['build']['clean']) $bat .= 'nmake clean'.RN;
 $bat .= 'call buildconf' . RN . RN;
 $bat .= 'call configure --disable-all ^' . RN;
 foreach ($MATRIX->extensions as $ext)

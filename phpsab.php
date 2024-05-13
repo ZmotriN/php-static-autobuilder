@@ -2,12 +2,12 @@
 
 /**
 *
-* ██████╗ ██╗  ██╗██████╗     ███████╗████████╗ █████╗ ████████╗██╗ ██████╗     █████╗ ██╗   ██╗████████╗ ██████╗ ██████╗ ██╗   ██╗██╗██╗     ██████╗ ███████╗██████╗ 
-* ██╔══██╗██║  ██║██╔══██╗    ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗██╔══██╗██║   ██║██║██║     ██╔══██╗██╔════╝██╔══██╗
-* ██████╔╝███████║██████╔╝    ███████╗   ██║   ███████║   ██║   ██║██║         ███████║██║   ██║   ██║   ██║   ██║██████╔╝██║   ██║██║██║     ██║  ██║█████╗  ██████╔╝
-* ██╔═══╝ ██╔══██║██╔═══╝     ╚════██║   ██║   ██╔══██║   ██║   ██║██║         ██╔══██║██║   ██║   ██║   ██║   ██║██╔══██╗██║   ██║██║██║     ██║  ██║██╔══╝  ██╔══██╗
-* ██║     ██║  ██║██║         ███████║   ██║   ██║  ██║   ██║   ██║╚██████╗    ██║  ██║╚██████╔╝   ██║   ╚██████╔╝██████╔╝╚██████╔╝██║███████╗██████╔╝███████╗██║  ██║
-* ╚═╝     ╚═╝  ╚═╝╚═╝         ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝
+* ██████╗ ██╗  ██╗██████╗ ███████╗ █████╗ ██████╗ 
+* ██╔══██╗██║  ██║██╔══██╗██╔════╝██╔══██╗██╔══██╗
+* ██████╔╝███████║██████╔╝███████╗███████║██████╔╝
+* ██╔═══╝ ██╔══██║██╔═══╝ ╚════██║██╔══██║██╔══██╗
+* ██║     ██║  ██║██║     ███████║██║  ██║██████╔╝
+* ╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝╚═════╝ 
 * 
 */
 
@@ -16,21 +16,70 @@ const TMP = DIR.'tmp\\';
 const LOG = DIR.'logs\\';
 const BUILD = DIR.'build\\';
 const MASTER = DIR.'master\\';
-const MAX_BUFFER_WIDTH = 100;
+const CONFIG = DIR.'configs\\';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
-const SPEED_DEV = true;
-
+const MAX_BUFFER_WIDTH = 100;
+const SPEED_DEV = false;
 
 draw_header("PHP Static Autobuilder");
 
 
 // TODO: set lang to neutral in .res
+// TODO: code_page in .res
+// TODO: bootstrap phpsab
+// TODO: bootstrap cli
+// TODO: build clean with config
 
 
-// https://raw.githubusercontent.com/ZmotriN/php-static-autobuilder/main/matrix.json
-$MATRIX = json_decode(file_get_contents(DIR.'matrix.json'));
-$CONFIG = parse_ini_file(DIR.'configs\default.ini', true, INI_SCANNER_TYPED);
+/**
+ * Create default configuration file
+ */
+if(!is_dir(CONFIG) && !@mkdir(CONFIG, 0777, true)) exit_error("Can't create configs folder");
+if(!is_file(CONFIG . 'default.ini')) {
+    $conf['build']['target'] = 'php-static.exe';
+    $conf['build']['bootstrap'] = 'default';
+    $conf['build']['clean'] = false;
+    $conf['extensions']['win32std'] = true;
+    $conf['extensions']['winbinder'] = true;
+    $conf['extensions']['wcli'] = true;
+    file_put_contents(CONFIG . 'default.ini', generate_ini($conf));
+}
 
+
+/**
+ * Load configuration file
+ */
+if($argc > 1) $configname = $argv[1];
+else $configname = 'default';
+if(!is_file(CONFIG . $configname . '.ini')) exit_error("Can't load \"".$configname.".ini\" config file");
+if(!$CONFIG = @parse_ini_file(CONFIG . $configname . '.ini', true, INI_SCANNER_TYPED)) exit_error("Invalid \"".$configname.".ini\" config file");
+if(!isset($CONFIG['build']['target'])) $CONFIG['build']['target'] = 'php-static.exe';
+if(!isset($CONFIG['build']['bootstrap'])) $CONFIG['build']['bootstrap'] = 'default';
+if(!isset($CONFIG['build']['clean'])) $CONFIG['build']['clean'] = false;
+if(!isset($CONFIG['extensions'])) $CONFIG['extensions'] = [];
+if(strtolower(pathinfo($CONFIG['build']['target'], PATHINFO_EXTENSION)) != 'exe') exit_error("Invalid target extension");
+
+
+/**
+ * Loading Information Matrix
+ */
+draw_line("Loading matrix", 'running', Yellow);
+if(is_file(DIR.'matrix.json')) $contents = @file_get_contents(DIR.'matrix.json');
+else $contents = curl_get_contents('https://raw.githubusercontent.com/ZmotriN/php-static-autobuilder/main/matrix.json');
+if(!$contents) draw_status("Loading matrix", 'failed', Red, true);
+if(!$MATRIX = @json_decode($contents)) draw_status("Loading matrix", 'failed', Red, true);
+draw_STATUS("Loading matrix", 'complete', Green);
+
+
+/**
+ * Verify version availability
+ */
+if($MATRIX->version != VERSION) {
+    wcli_echo(RN."A new version is available.".RN."Press any key to visite release site.", Green|Bright);
+    wcli_get_key();
+    wb_exec('https://github.com/ZmotriN/php-static-autobuilder/releases');
+    exit(0);
+}
 
 
 /**
@@ -238,7 +287,19 @@ if(!is_dir(ARCH_PATH)) {
 }
 
 
-// TODO: CLONE MASTER
+/**
+ * Install master scripts
+ */
+if(!is_dir(MASTER)) {
+    draw_line("Clone master scripts", 'running', Yellow);
+    git_clone($MATRIX->master->repo, MASTER);
+    if(!is_dir(MASTER)) draw_status("Cloning master scripts", 'failed', Red, true);
+    else draw_status("Cloning master scripts", 'up-to-date', Green);
+} elseif(is_dir(MASTER.'.git')) {
+    draw_line("Update master scripts", 'running', Yellow);
+    git_update(MASTER);
+    draw_status("Cloning master scripts", 'up-to-date', Green);
+}
 
 
 /**
@@ -315,20 +376,26 @@ include(MASTER.'php\install_embeder.php');
 include(MASTER.'php\build_php.php');
 
 
-
-
-
+/**
+ * Jobs done!
+ */
+exit(0);
 // END
 
 
 
 
 
+
+
+
+
 /*****************************************************************************************
- *                                                                                       *
- *                                   Helper Functions                                    *
- *                                                                                       *
+ *****************************************************************************************
+ *********************************** HELPER FUNCTIONS ************************************
+ *****************************************************************************************
  *****************************************************************************************/
+
 
 function shell_exec_vs16($taskfile, $verbose = false)
 {
@@ -646,6 +713,23 @@ function rm_dir($dir)
     if(!is_dir($dir)) return false;
     shell_exec('rm -rf ' . escapeshellarg(realpath($dir)) . ' 2>&1');
     return true;
+}
+
+
+function generate_ini(array $values)
+{
+    $ini = '';
+    foreach($values as $k => $v) {
+        $ini .= '[' . $k . ']'.RN;
+        foreach($v as $name => $val) {
+            $ini .= $name . ' = ';
+            if(is_string($val)) $ini .= '"' . str_replace('"', '\"', $val) . '"'.RN;
+            elseif(is_numeric($val)) $ini .= $val.RN;
+            else $ini .= boolval($val) ? 'Yes'.RN : 'No'.RN;
+        }
+        $ini .= RN;
+    }
+    return $ini;
 }
 
 

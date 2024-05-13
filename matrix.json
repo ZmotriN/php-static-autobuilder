@@ -1,10 +1,12 @@
 {
     "version": "0.1.0",
 
-    "php": {
-        "version": "8.3.7",
-        "download_url": "https://windows.php.net/downloads/releases/php-8.3.7-src.zip",
-        "archive_url": "https://windows.php.net/downloads/releases/archives/php-8.3.7-Win32-vs16-x64.zip"
+    "master": {
+        "repo": "https://github.com/ZmotriN/php-static-autobuilder.git"
+    },
+
+    "embeder": {
+        "repo": "https://github.com/ZmotriN/php-embed-static.git"
     },
 
     "sdk": {
@@ -15,8 +17,10 @@
         "download_url": "https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe"
     },
 
-    "embeder": {
-        "repo": "https://github.com/ZmotriN/php-embed-static.git"
+    "php": {
+        "version": "8.3.7",
+        "download_url": "https://windows.php.net/downloads/releases/php-8.3.7-src.zip",
+        "archive_url": "https://windows.php.net/downloads/releases/archives/php-8.3.7-Win32-vs16-x64.zip"
     },
 
     "extensions": [
