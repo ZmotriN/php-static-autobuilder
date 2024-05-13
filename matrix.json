@@ -7,12 +7,17 @@
         "archive_url": "https://windows.php.net/downloads/releases/archives/php-8.3.7-Win32-vs16-x64.zip"
     },
 
+    "embeder": {
+        "repo": "https://github.com/ZmotriN/php-embed-static.git"
+    },
+
     "extensions": [
         {
             "name": "win32std",
             "repo": "https://github.com/ZmotriN/win32std.git",
             "builtin": false,
             "mandatory": true,
+            "switch": "--with-win32std",
             "dependancies": [],
             "libraries": []
         },
@@ -21,6 +26,7 @@
             "repo": "https://github.com/ZmotriN/Winbinder-PHP8.git",
             "builtin": false,
             "mandatory": false,
+            "switch": "--with-winbinder",
             "dependancies": [],
             "libraries": []
         },
@@ -29,6 +35,7 @@
             "repo": "https://github.com/ZmotriN/php-wcli.git",
             "builtin": false,
             "mandatory": false,
+            "switch": "--with-wcli",
             "dependancies": [],
             "libraries": []
         },
@@ -37,6 +44,7 @@
             "repo": "",
             "builtin": true,
             "mandatory": false,
+            "switch": "--with-curl",
             "dependancies": [],
             "libraries": ["curl"]
         },
@@ -45,6 +53,7 @@
             "repo": "",
             "builtin": true,
             "mandatory": false,
+            "switch": "--with-openssl=static",
             "dependancies": [],
             "libraries": ["openssl"]
         },
@@ -53,6 +62,7 @@
             "repo": "",
             "builtin": true,
             "mandatory": false,
+            "switch": "--with-bz2",
             "dependancies": [],
             "libraries": ["libbzip2"]
         },
@@ -61,14 +71,18 @@
             "repo": "",
             "builtin": true,
             "mandatory": false,
+            "switch": "--enable-phar --enable-phar-native-ssl",
             "dependancies": ["bz2", "openssl"],
             "libraries": []
         },
         {
             "name": "igbinary",
-            "repo": "https://github.com/igbinary/igbinary.git",
+            "repo": "",
+            "url": "https://pecl.php.net/get/igbinary-3.2.15.tgz",
+            "version": "3.2.15",
             "builtin": false,
             "mandatory": false,
+            "switch": "--enable-igbinary",
             "dependancies": [],
             "libraries": []
         },
@@ -79,6 +93,7 @@
             "version": "2024.1",
             "builtin": false,
             "mandatory": false,
+            "switch": "--enable-timezonedb",
             "dependancies": [],
             "libraries": []
         }

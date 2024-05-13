@@ -1,5 +1,16 @@
 <?php
 
+/**
+*
+* ██████╗ ██╗  ██╗██████╗     ███████╗████████╗ █████╗ ████████╗██╗ ██████╗     █████╗ ██╗   ██╗████████╗ ██████╗ ██████╗ ██╗   ██╗██╗██╗     ██████╗ ███████╗██████╗ 
+* ██╔══██╗██║  ██║██╔══██╗    ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔════╝    ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗██╔══██╗██║   ██║██║██║     ██╔══██╗██╔════╝██╔══██╗
+* ██████╔╝███████║██████╔╝    ███████╗   ██║   ███████║   ██║   ██║██║         ███████║██║   ██║   ██║   ██║   ██║██████╔╝██║   ██║██║██║     ██║  ██║█████╗  ██████╔╝
+* ██╔═══╝ ██╔══██║██╔═══╝     ╚════██║   ██║   ██╔══██║   ██║   ██║██║         ██╔══██║██║   ██║   ██║   ██║   ██║██╔══██╗██║   ██║██║██║     ██║  ██║██╔══╝  ██╔══██╗
+* ██║     ██║  ██║██║         ███████║   ██║   ██║  ██║   ██║   ██║╚██████╗    ██║  ██║╚██████╔╝   ██║   ╚██████╔╝██████╔╝╚██████╔╝██║███████╗██████╔╝███████╗██║  ██║
+* ╚═╝     ╚═╝  ╚═╝╚═╝         ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝    ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═╝
+* 
+*/
+
 const VERSION = "0.1.0";
 const TMP = DIR.'tmp\\';
 const MAX_BUFFER_WIDTH = 100;
@@ -9,6 +20,8 @@ const SPEED_DEV = true;
 
 draw_header("PHP Static Autobuilder");
 
+
+// https://raw.githubusercontent.com/ZmotriN/php-static-autobuilder/main/matrix.json
 $MATRIX = json_decode(file_get_contents(DIR.'matrix.json'));
 $CONFIG = parse_ini_file(DIR.'configs\default.ini', true, INI_SCANNER_TYPED);
 
@@ -53,18 +66,6 @@ if($gitpath = verify_deps_git()) {
     draw_status("Git", "missing", Red);
     exit_error();
 }
-
-
-/**
- * Verify Patch
- */
-// if($patchpath = verify_deps_patch()) {
-//     define('PATCH_PATH', $patchpath);
-//     draw_status("Patch", "found", Green);
-// } else {
-//     draw_status("Patch", "missing", Red);
-//     exit_error();
-// }
 
 
 /**
@@ -173,8 +174,7 @@ if(!is_dir(ARCH_PATH)) {
     if(is_dir(ARCH_PATH)) {
         draw_status('Architecture tree', 'created', Green);
     } else {
-        draw_status('Architecture tree', 'failed', Red);
-        exit_error();
+        draw_status('Architecture tree', 'failed', Red, true);
     }
 } else {
     draw_status('Architecture tree', 'found', Green);
@@ -226,7 +226,6 @@ foreach($MATRIX->libraries as $lib)
         include(DIR.'master\libraries\\' . $lib->install_script);
 
 
-
 /**
  * Install PHP
  */
@@ -236,19 +235,27 @@ include(DIR.'master\php\install_php.php');
 define('PHP_PATH', $path);
 
 
-
-
-
 /**
  * Install Extensions
  */
-define('EXT_PATH', PHP_PATH.'ext\\');
+define('EXT_PATH', PHP_PATH . 'ext\\');
 foreach($MATRIX->extensions as $ext)
     if(!$ext->builtin)
         if(isset($CONFIG['extensions'][$ext->name]))
             include(DIR.'master\php\install_extension.php');
 
 
+/**
+ * Install Embeder
+ */
+define('EMBEDER_PATH', PHP_PATH . 'embeder\\');
+include(DIR.'master\php\install_embeder.php');
+
+
+/**
+ * Compile PHP
+ */
+include(DIR.'master\php\build_php.php');
 
 
 
@@ -257,6 +264,14 @@ foreach($MATRIX->extensions as $ext)
 
 
 
+
+
+
+/*****************************************************************************************
+ *                                                                                       *
+ *                                   Helper Functions                                    *
+ *                                                                                       *
+ *****************************************************************************************/
 
 function shell_exec_vs16($taskfile, $verbose = false)
 {
@@ -349,7 +364,8 @@ function exit_error($msg = "An error occured")
 }
 
 
-function download_file($url, $dest, $label) {
+function download_file($url, $dest, $label)
+{
     $label = 'Download '.$label;
     $lastsize = -1;
     if($result = curl_get_contents($url, $dest, function($prog, $downbytes) use($label, &$lastsize) {
@@ -470,7 +486,9 @@ function sizetostr($oct, $precision = 1, $space = true)
 }
 
 
-function rename_wait($src, $dst, $sec = 10) {
+function rename_wait($src, $dst, $sec = 10)
+{
+    if(is_dir($dst)) rm_dir($dst);
     for($i = 0; $i < $sec; $i++) {
         if(@rename($src, $dst)) {
             $success = true;

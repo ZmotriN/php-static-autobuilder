@@ -48,6 +48,8 @@ if (!empty($ext->repo)) {
             file_put_contents($path . 'version-static.txt', $ext->version);
 
             draw_status($ext->name . '-' . $ext->version, 'installed', Green);
+        } else {
+            draw_status($ext->name . '-' . $ext->version, 'installed', Green);
         }
     }
 }
