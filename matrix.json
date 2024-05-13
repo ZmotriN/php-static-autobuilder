@@ -7,6 +7,14 @@
         "archive_url": "https://windows.php.net/downloads/releases/archives/php-8.3.7-Win32-vs16-x64.zip"
     },
 
+    "sdk": {
+        "download_url": "https://github.com/php/php-sdk-binary-tools/archive/refs/heads/master.zip"
+    },
+
+    "rcedit": {
+        "download_url": "https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe"
+    },
+
     "embeder": {
         "repo": "https://github.com/ZmotriN/php-embed-static.git"
     },

@@ -10,7 +10,7 @@ if (is_dir($path) && is_file($path . 'build\lib\libssh2.lib') && is_file(DEPS_PA
 
 $tmpfile = TMP.pathinfo($lib->download_url, PATHINFO_BASENAME);
 if(!download_file($lib->download_url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASENAME))) exit_error();
-if(!$firstdir = zip_fist_dir($tmpfile)) exit_error("Invalid zip archive");
+if(!$firstdir = zip_first_dir($tmpfile)) exit_error("Invalid zip archive");
 if(!unzip($tmpfile, ARCH_PATH)) exit_error();
 if(!rename_wait(ARCH_PATH . $firstdir, $path)) exit_error("Can't rename library path");
 
@@ -73,6 +73,3 @@ if(!install_deps($builddir)) {
     draw_status($label, "complete", Green);
 }
 
-
-
-exit();

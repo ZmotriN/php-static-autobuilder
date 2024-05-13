@@ -87,3 +87,17 @@ function wcli_get_cursor_position(): array|bool {}
  * @return bool True if success, else false.
  */
 function wcli_print(string $str, int $x = null, int $y = null, int $fore = null, int $back = null): bool {}
+
+
+/**
+ * Method res_set
+ *
+ * @param string $file
+ * @param string $type
+ * @param string $name
+ * @param string $data
+ * @param int $lang
+ *
+ * @return bool
+ */
+function res_set( string $file, string $type, string $name, string $data, int $lang = null): bool {}

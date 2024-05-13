@@ -13,21 +13,25 @@ if(!is_dir($path)) {
 
 draw_status("PHP-" . $MATRIX->php->version, 'installed', Green);
 
+
+
 $patchdir = DIR.'master\patches\\' . $MATRIX->php->version . '\\';
 if(!is_dir($patchdir)) exit_error("Can't find PHP-' . $MATRIX->php->version . ' patches folder");
 
+$patchexe = DIR . 'sdk\msys2\usr\bin\patch.exe';
+if(!is_file($patchexe)) exit_error("Can't find patch.exe");
 
-draw_line("Apply patches", 'running', Yellow);
-
-$bat = '@echo off'.RN;
-foreach(glob($patchdir.'*.patch') as $patch) {
-    $bat .= 'patch --force --directory=' . escapeshellarg($path) . ' -p 2 < ' . escapeshellarg($patch).RN;
-}
-
-$batfile = TMP . 'php_patch.bat';
-file_put_contents($batfile, $bat);
 if(!SPEED_DEV) {
-    shell_exec_vs16_phpsdk($batfile);
-}
+    draw_line("Apply patches", 'running', Yellow);
+    
+    $bat = '@echo off'.RN;
+    foreach(glob($patchdir.'*.patch') as $patch) {
+        $bat .= escapeshellarg($patchexe) . ' --force --directory=' . escapeshellarg($path) . ' -p 2 < ' . escapeshellarg($patch).RN;
+    }
 
-draw_status("Apply patches", 'complete', Green);
+    $batfile = TMP . 'php_patch.bat';
+    file_put_contents($batfile, $bat);
+    shell_exec(escapeshellarg($batfile) . ' 2>&1');
+
+    draw_status("Apply patches", 'complete', Green);
+}

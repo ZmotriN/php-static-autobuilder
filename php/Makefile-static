@@ -1,0 +1,13 @@
+
+
+
+static: 
+   $(MAKE_LIB) @<<  
+$(PHP_GLOBAL_OBJS) $(BUILD_DIR)\Zend\jump_$(FIBER_ASM_ARCH)_ms_pe_masm.obj $(BUILD_DIR)\Zend\make_$(FIBER_ASM_ARCH)_ms_pe_masm.obj $(STATIC_EXT_OBJS) $(STATIC_EXT_LIBS) $(LIBS) /out:$(BUILD_DIR)\php8ts_static.lib  $(LDFLAGS) $(STATIC_EXT_LDFLAGS)  
+<< 
+   $(MAKE_LIB) @<<  
+$(PHP_GLOBAL_OBJS) $(BUILD_DIR)\Zend\jump_$(FIBER_ASM_ARCH)_ms_pe_masm.obj $(BUILD_DIR)\Zend\make_$(FIBER_ASM_ARCH)_ms_pe_masm.obj $(LIBS) /nologo /out:$(BUILD_DIR)\php8embed_static.lib $(LDFLAGS) $(EMBED_GLOBAL_OBJS) $(BUILD_DIR)\php8ts_static.lib $(LDFLAGS_EMBED) $(LIBS_EMBED) $(BUILD_DIR)\php8embed.lib.res 
+<<
+
+
+# EOF

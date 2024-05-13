@@ -15,7 +15,7 @@ if (!empty($ext->repo)) {
         }
     }
 } elseif (!empty($ext->url) && !empty($ext->version)) {
-
+    // TODO: OPTIMIZE
     if (!is_dir($path)) {
         $tmpfile = TMP . pathinfo($ext->url, PATHINFO_BASENAME);
         if (strtolower(pathinfo($tmpfile, PATHINFO_EXTENSION)) == 'tgz')
@@ -33,8 +33,8 @@ if (!empty($ext->repo)) {
     } elseif (is_file($path . 'version-static.txt')) {
         $version = file_get_contents($path . 'version-static.txt');
         if (version_compare($ext->version, $version) > 0) {
+            
             rm_dir($path);
-
             $tmpfile = TMP . pathinfo($ext->url, PATHINFO_BASENAME);
             if (strtolower(pathinfo($tmpfile, PATHINFO_EXTENSION)) == 'tgz')
                 $tmpfile = preg_replace('#\.tgz$#i', '.tar.gz', $tmpfile);

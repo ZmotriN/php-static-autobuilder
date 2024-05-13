@@ -13,6 +13,9 @@
 
 const VERSION = "0.1.0";
 const TMP = DIR.'tmp\\';
+const LOG = DIR.'logs\\';
+const BUILD = DIR.'build\\';
+const MASTER = DIR.'master\\';
 const MAX_BUFFER_WIDTH = 100;
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 const SPEED_DEV = true;
@@ -21,15 +24,13 @@ const SPEED_DEV = true;
 draw_header("PHP Static Autobuilder");
 
 
+// TODO: set lang to neutral in .res
+
+
 // https://raw.githubusercontent.com/ZmotriN/php-static-autobuilder/main/matrix.json
 $MATRIX = json_decode(file_get_contents(DIR.'matrix.json'));
 $CONFIG = parse_ini_file(DIR.'configs\default.ini', true, INI_SCANNER_TYPED);
 
-
-
-
-// TODO: CHECK NASM
-// TODO: CHECK RM
 
 
 /**
@@ -69,6 +70,20 @@ if($gitpath = verify_deps_git()) {
 
 
 /**
+ * Verify NASM
+ */
+if(wcli_where('nasm')) draw_status("NASM", "found", Green);
+else draw_status("NASM", "missing", Red, true);
+
+
+/**
+ * Verify RM
+ */
+if(wcli_where('rm')) draw_status("RM", "found", Green);
+else draw_status("RM", "missing", Red, true);
+
+
+/**
  * Create temporary folder
  */
 if(is_dir(TMP)) {
@@ -84,6 +99,36 @@ if(is_dir(TMP)) {
 
 
 /**
+ * Create logs folder
+ */
+if(is_dir(LOG)) {
+    draw_status("Logs folder", "found", Green);
+} else {
+    if(@mkdir(LOG, 0777, true)) {
+        draw_status("Logs folder", "created", Green);
+    } else {
+        draw_status("Logs folder", "failed", Red);
+        exit_error();
+    }
+}
+
+
+/**
+ * Create build folder
+ */
+if(is_dir(BUILD)) {
+    draw_status("Build folder", "found", Green);
+} else {
+    if(@mkdir(BUILD, 0777, true)) {
+        draw_status("Build folder", "created", Green);
+    } else {
+        draw_status("Build folder", "failed", Red);
+        exit_error();
+    }
+}
+
+
+/**
  * Download and install PHP SDK Binary Tools
  */
 define('SDK_PATH', DIR.'sdk\phpsdk-vs16-x64.bat');
@@ -91,7 +136,7 @@ if(!is_file(SDK_PATH)) {
     $sdkzip = TMP.'sdk-binary-tools.zip';
     $sdkdir = DIR.'php-sdk-binary-tools-master';
     $sdkdest = DIR.'sdk';
-    if(!download_file("https://github.com/php/php-sdk-binary-tools/archive/refs/heads/master.zip", $sdkzip, "php-sdk-binary-tools")) exit_error();
+    if(!download_file($MATRIX->sdk->download_url, $sdkzip, "php-sdk-binary-tools")) exit_error();
     if(!unzip($sdkzip, DIR)) exit_error();
     if(!is_dir($sdkdir)) exit_error("Invalid archive");
     if(!rename_wait(realpath($sdkdir), $sdkdest)) exit_error("Can't rename SDK folder");
@@ -100,6 +145,18 @@ if(!is_file(SDK_PATH)) {
     draw_status("SDK Binary Tools", "installed", Green);
 } else {
     draw_status("SDK Binary Tools", "found", Green);
+}
+
+
+/**
+ * Download and install RCEDIT
+ */
+define('RCEDIT_PATH', DIR . 'sdk\bin\rcedit.exe');
+if(!is_file(RCEDIT_PATH)) {
+    if(!download_file($MATRIX->rcedit->download_url, RCEDIT_PATH, pathinfo(RCEDIT_PATH, PATHINFO_BASENAME))) exit_error();
+    draw_status("RCEDIT", "installed", Green);
+} else {
+    draw_status("RCEDIT", "found", Green);
 }
 
 
@@ -223,7 +280,7 @@ foreach($MATRIX->libraries as $lib)
  */
 foreach($MATRIX->libraries as $lib)
     if(in_array($lib->name, $libraries))
-        include(DIR.'master\libraries\\' . $lib->install_script);
+        include(MASTER.'libraries\\' . $lib->install_script);
 
 
 /**
@@ -231,7 +288,7 @@ foreach($MATRIX->libraries as $lib)
  */
 echo RN.RN;
 draw_header("PHP " . $MATRIX->php->version);
-include(DIR.'master\php\install_php.php');
+include(MASTER . 'php\install_php.php');
 define('PHP_PATH', $path);
 
 
@@ -241,27 +298,27 @@ define('PHP_PATH', $path);
 define('EXT_PATH', PHP_PATH . 'ext\\');
 foreach($MATRIX->extensions as $ext)
     if(!$ext->builtin)
-        if(isset($CONFIG['extensions'][$ext->name]))
-            include(DIR.'master\php\install_extension.php');
+        if(isset($CONFIG['extensions'][$ext->name]) && $CONFIG['extensions'][$ext->name])
+            include(MASTER . 'php\install_extension.php');
 
 
 /**
  * Install Embeder
  */
 define('EMBEDER_PATH', PHP_PATH . 'embeder\\');
-include(DIR.'master\php\install_embeder.php');
+include(MASTER.'php\install_embeder.php');
 
 
 /**
- * Compile PHP
+ * Build PHP
  */
-include(DIR.'master\php\build_php.php');
+include(MASTER.'php\build_php.php');
 
 
 
 
 
-
+// END
 
 
 
@@ -277,8 +334,9 @@ function shell_exec_vs16($taskfile, $verbose = false)
 {
     if($verbose) {
         passthru(escapeshellarg(SCRIPT_VS16) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
+        return true;
     } else {
-        shell_exec(escapeshellarg(SCRIPT_VS16) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
+        return shell_exec(escapeshellarg(SCRIPT_VS16) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
     }
 }
 
@@ -287,15 +345,17 @@ function shell_exec_vs16_phpsdk($taskfile, $verbose = false)
 {
     if($verbose) {
         passthru(escapeshellarg(SCRIPT_VS16_PHPSDK) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
+        return true;
     } else {
-        shell_exec(escapeshellarg(SCRIPT_VS16_PHPSDK) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
+        return shell_exec(escapeshellarg(SCRIPT_VS16_PHPSDK) . ' ' . escapeshellarg($taskfile) . ' 2>&1');
     }
 }
 
 
 function git_clone($repo, $dir)
 {
-    shell_exec('git clone ' . escapeshellarg($repo) . ' '.escapeshellarg(rtrim($dir, '\\')) . ' 2>&1');
+    $ret = shell_exec('git clone ' . escapeshellarg($repo) . ' '.escapeshellarg(rtrim($dir, '\\')) . ' 2>&1');
+    file_put_contents(LOG.'git.log', $ret.RN, FILE_APPEND);
     return is_dir($dir);
 }
 
@@ -304,7 +364,8 @@ function git_update($dir)
 {
     $lastdir = getcwd();
     chdir($dir);
-    shell_exec('git pull 2>&1');
+    $ret = shell_exec('git pull 2>&1');
+    file_put_contents(LOG.'git.log', $ret.RN, FILE_APPEND);
     chdir($lastdir);
     return true;
 }
@@ -357,8 +418,8 @@ function draw_header(string $name, int $max = MAX_BUFFER_WIDTH)
 
 function exit_error($msg = "An error occured")
 {
-    $msg .= ". Press a key to exit.";
-    wcli_echo(RN.RN.$msg, Red);
+    $msg .= ".\r\nPress a key to exit.";
+    wcli_echo(RN.RN.$msg, Red|Bright);
     wcli_get_key();
     exit(1);
 }
