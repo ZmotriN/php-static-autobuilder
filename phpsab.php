@@ -37,6 +37,7 @@ if(!is_file(CONFIG . 'default.ini')) {
     $conf['extensions']['win32std'] = true;
     $conf['extensions']['winbinder'] = true;
     $conf['extensions']['wcli'] = true;
+    $conf['extensions']['phar'] = true;
     file_put_contents(CONFIG . 'default.ini', generate_ini($conf));
 }
 if(!is_file(CONFIG . 'phpsab.ini')) {

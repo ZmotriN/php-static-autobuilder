@@ -1,1 +1,1 @@
-# php-static-autobuilder
+# PHPSAB - PHP Static Autobuilder

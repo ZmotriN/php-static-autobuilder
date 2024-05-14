@@ -126,6 +126,132 @@
             "switch": "--enable-zip",
             "dependancies": [],
             "libraries": ["libzip", "liblzma"]
+        },
+        {
+            "name": "bcmath",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-bcmath",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "calendar",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-calendar",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "com_dotnet",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-com-dotnet",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "ctype",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-ctype",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "dba",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-dba",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "qdbm",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-qdbm",
+            "dependancies": ["dba"],
+            "libraries": ["libqdbm"]
+        },
+        {
+            "name": "lmdb",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-lmdb",
+            "dependancies": ["dba"],
+            "libraries": ["liblmdb"]
+        },
+        {
+            "name": "enchant",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-enchant",
+            "dependancies": [],
+            "libraries": ["libenchant2", "glib"]
+        },
+        {
+            "name": "ffi",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-ffi",
+            "dependancies": [],
+            "libraries": ["libffi"]
+        },
+        {
+            "name": "fileinfo",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-fileinfo=static",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "filter",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-filter",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "ftp",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-ftp",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "gd",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-gd --with-libwebp",
+            "dependancies": [],
+            "libraries": ["libjpeg-turbo", "freetype", "libpng", "libiconv", "libxpm", "libwebp"]
+        },
+        {
+            "name": "libavif",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-libavif",
+            "dependancies": ["gd"],
+            "libraries": ["libavif"]
         }
     ],
     
@@ -197,6 +323,114 @@
             "install_script": "install_curl.php",
             "mandatory": false,
             "dependancies": ["openssl", "libssh2", "nghttp2", "zlib"]
+        },
+        {
+            "name": "libqdbm",
+            "version": "1.8.78",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libqdbm-1.8.78-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\qdbm_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "liblmdb",
+            "version": "0.9.22-6",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/liblmdb-0.9.22-6-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\liblmdb_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libenchant2",
+            "version": "2.2.8",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libenchant2-2.2.8-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libenchant2.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "glib",
+            "version": "2.53.3-1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/glib-2.53.3-1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\glib-2.0.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libffi",
+            "version": "3.3-4",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libffi-3.3-4-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libffi.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libjpeg-turbo",
+            "version": "2.1.0",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libjpeg-turbo-2.1.0-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libjpeg_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "freetype",
+            "version": "2.11.1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/freetype-2.11.1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\freetype_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libpng",
+            "version": "1.6.34-8",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libpng-1.6.34-8-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libpng_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libiconv",
+            "version": "1.17",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libiconv-1.17-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libiconv_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libxpm",
+            "version": "3.5.12-8",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libxpm-3.5.12-8-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libxpm_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libwebp",
+            "version": "1.3.2",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libwebp-1.3.2-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libwebp_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libavif",
+            "version": "0.9.0-1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libavif-0.9.0-1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\avif_a.lib",
+            "mandatory": false,
+            "dependancies": []
         }
     ]
 }
