@@ -63,3 +63,6 @@ if(!install_deps($builddir)) {
 } else {
     draw_status($label, "complete", Green);
 }
+
+
+delete_parent_deps($lib->name);

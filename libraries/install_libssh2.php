@@ -18,7 +18,6 @@ if(!@copy(__DIR__ . '\libssh2.sln', $path . 'win32\libssh2.sln')) exit_error("Ca
 if(!@copy(__DIR__ . '\libssh2.vcxproj', $path . 'win32\libssh2.vcxproj')) exit_error("Can't copy project file");
 
 
-
 $label = "Compile " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 
@@ -73,3 +72,5 @@ if(!install_deps($builddir)) {
     draw_status($label, "complete", Green);
 }
 
+
+delete_parent_deps($lib->name);

@@ -69,3 +69,4 @@ if(!install_deps($builddir)) {
 }
 
 
+delete_parent_deps($lib->name);

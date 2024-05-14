@@ -1,6 +1,7 @@
 <?php
 
 const DIR = "";
+const SELF = "";
 
 const RN = "\r\n";
 const R = "\r";
@@ -101,3 +102,13 @@ function wcli_print(string $str, int $x = null, int $y = null, int $fore = null,
  * @return bool
  */
 function res_set( string $file, string $type, string $name, string $data, int $lang = null): bool {}
+
+
+/**
+ * Flash console window.
+ *
+ * @param bool $invert If TRUE, the window is flashed from one state to the other.
+ *
+ * @return bool True if success, else false.
+ */
+function wcli_flash(bool $invert = false): bool {}

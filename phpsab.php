@@ -11,6 +11,7 @@
 * 
 */
 
+
 const VERSION = "0.1.0";
 const TMP = DIR.'tmp\\';
 const LOG = DIR.'logs\\';
@@ -21,18 +22,12 @@ const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 const MAX_BUFFER_WIDTH = 100;
 const SPEED_DEV = false;
 
+
 draw_header("PHP Static Autobuilder");
 
 
-// TODO: set lang to neutral in .res
-// TODO: code_page in .res
-// TODO: bootstrap phpsab
-// TODO: bootstrap cli
-// TODO: build clean with config
-
-
 /**
- * Create default configuration file
+ * Create default configuration files
  */
 if(!is_dir(CONFIG) && !@mkdir(CONFIG, 0777, true)) exit_error("Can't create configs folder");
 if(!is_file(CONFIG . 'default.ini')) {
@@ -43,6 +38,19 @@ if(!is_file(CONFIG . 'default.ini')) {
     $conf['extensions']['winbinder'] = true;
     $conf['extensions']['wcli'] = true;
     file_put_contents(CONFIG . 'default.ini', generate_ini($conf));
+}
+if(!is_file(CONFIG . 'phpsab.ini')) {
+    $conf['build']['target'] = 'phpsab.exe';
+    $conf['build']['bootstrap'] = 'phpsab';
+    $conf['build']['clean'] = false;
+    $conf['extensions']['win32std'] = true;
+    $conf['extensions']['winbinder'] = true;
+    $conf['extensions']['wcli'] = true;
+    $conf['extensions']['curl'] = true;
+    $conf['extensions']['phar'] = true;
+    $conf['extensions']['zlib'] = true;
+    $conf['extensions']['zip'] = true;
+    file_put_contents(CONFIG . 'phpsab.ini', generate_ini($conf));
 }
 
 
@@ -56,8 +64,11 @@ if(!$CONFIG = @parse_ini_file(CONFIG . $configname . '.ini', true, INI_SCANNER_T
 if(!isset($CONFIG['build']['target'])) $CONFIG['build']['target'] = 'php-static.exe';
 if(!isset($CONFIG['build']['bootstrap'])) $CONFIG['build']['bootstrap'] = 'default';
 if(!isset($CONFIG['build']['clean'])) $CONFIG['build']['clean'] = false;
+if(!isset($CONFIG['build']['test'])) $CONFIG['build']['test'] = false;
 if(!isset($CONFIG['extensions'])) $CONFIG['extensions'] = [];
 if(strtolower(pathinfo($CONFIG['build']['target'], PATHINFO_EXTENSION)) != 'exe') exit_error("Invalid target extension");
+if(!empty($argv[2]) && $argv[2] == 'clean') $CONFIG['build']['clean'] = true;
+if(!empty($argv[2]) && $argv[2] == 'test') $CONFIG['build']['test'] = true;
 
 
 /**
@@ -68,7 +79,7 @@ if(is_file(DIR.'matrix.json')) $contents = @file_get_contents(DIR.'matrix.json')
 else $contents = curl_get_contents('https://raw.githubusercontent.com/ZmotriN/php-static-autobuilder/main/matrix.json');
 if(!$contents) draw_status("Loading matrix", 'failed', Red, true);
 if(!$MATRIX = @json_decode($contents)) draw_status("Loading matrix", 'failed', Red, true);
-draw_STATUS("Loading matrix", 'complete', Green);
+draw_status("Loading matrix", 'complete', Green);
 
 
 /**
@@ -76,6 +87,7 @@ draw_STATUS("Loading matrix", 'complete', Green);
  */
 if($MATRIX->version != VERSION) {
     wcli_echo(RN."A new version is available.".RN."Press any key to visite release site.", Green|Bright);
+    wcli_flash();
     wcli_get_key();
     wb_exec('https://github.com/ZmotriN/php-static-autobuilder/releases');
     exit(0);
@@ -379,6 +391,9 @@ include(MASTER.'php\build_php.php');
 /**
  * Jobs done!
  */
+wcli_echo("Press any key to quit.", Yellow);
+wcli_flash();
+wcli_get_key();
 exit(0);
 // END
 
@@ -471,7 +486,6 @@ function draw_header(string $name, int $max = MAX_BUFFER_WIDTH)
     }
     wcli_echo(str_repeat('*', $bw).RN, White|Bright);
     wcli_echo('*'.str_repeat(' ', ($bw - 2)).'*'.RN, White|Bright);
-
     $left = floor(($bw - 2 - strlen($name)) / 2);
     wcli_echo('*'.str_repeat(' ', $left));
     wcli_echo(strtoupper($name), Aqua);
@@ -487,6 +501,7 @@ function exit_error($msg = "An error occured")
 {
     $msg .= ".\r\nPress a key to exit.";
     wcli_echo(RN.RN.$msg, Red|Bright);
+    wcli_flash();
     wcli_get_key();
     exit(1);
 }
@@ -730,6 +745,19 @@ function generate_ini(array $values)
         $ini .= RN;
     }
     return $ini;
+}
+
+
+function delete_parent_deps($libname)
+{
+    global $MATRIX;
+    foreach($MATRIX->libraries as $lib) {
+        if(in_array($libname, $lib->dependancies)) {
+            foreach(glob(ARCH_PATH . $lib->name . '-*', GLOB_ONLYDIR) as $dir) {
+                rm_dir($dir);
+            }
+        }
+    }
 }
 
 

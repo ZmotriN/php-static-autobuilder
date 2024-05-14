@@ -1,7 +1,8 @@
 <?php
 
 $path = ARCH_PATH . $lib->name . '-' . $lib->version . '\\';
-if(is_dir($path) && is_file($path . 'lib\libbz2_a.lib')&& is_file(DEPS_PATH . 'lib\libbz2_a.lib')) {
+
+if(is_dir($path) && is_file($path . $lib->install_check)&& is_file(DEPS_PATH . $lib->install_check)) {
     draw_status($lib->name . '-' . $lib->version, "installed", Green);
     return;
 }
