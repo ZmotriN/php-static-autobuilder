@@ -1,0 +1,11 @@
+--- "..\\php-8.3.7-original\\ext\\imap\\config.w32"	2024-05-07 12:35:26.000000000 -0400
++++ "ext\\imap\\config.w32"	2024-05-14 17:39:23.448941600 -0400
+@@ -13,7 +13,7 @@
+ 		CHECK_LIB("ws2_32.lib", "imap");
+ 		CHECK_LIB("Secur32.lib", "imap");
+ 		CHECK_LIB("crypt32.lib", "imap");
+-		EXTENSION("imap", "php_imap.c", true, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
++		EXTENSION("imap", "php_imap.c", PHP_IMAP_SHARED, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
+ 
+ 		ADD_FLAG("CFLAGS_IMAP", "/D HAVE_IMAP2000=1 /D HAVE_IMAP2004=1 /D HAVE_IMAP2007a=1 /D HAVE_IMAP2007b=1 /D HAVE_IMAP_SSL=1");
+ 		AC_DEFINE('HAVE_IMAP', 1, 'Have IMAP support', true);

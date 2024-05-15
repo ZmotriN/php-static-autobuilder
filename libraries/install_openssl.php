@@ -17,13 +17,16 @@ if(!is_dir($path)) exit_error("Library folder not found");
 $label = "Compile " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 
+$oslog = LOG . 'openssl.log';
+
 $bat = '@echo off'.RN;
 $bat .= 'cd ' . escapeshellarg($path).RN;
 $bat .= 'perl Configure VC-WIN64A'.RN;
 $bat .= 'nmake'.RN;
 $batfile = TMP . 'build_openssl.bat';
 file_put_contents($batfile, $bat);
-shell_exec_vs16($batfile);
+$ret = shell_exec_vs16($batfile);
+file_put_contents($oslog, $ret);
 
 if(!is_file($path . 'libcrypto_static.lib') || !is_file($path . 'libssl_static.lib')) {
     draw_status($label, "failed", Red, true);

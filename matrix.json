@@ -252,6 +252,312 @@
             "switch": "--with-libavif",
             "dependancies": ["gd"],
             "libraries": ["libavif"]
+        },
+        {
+            "name": "gettext",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-gettext",
+            "dependancies": [],
+            "libraries": ["libintl"]
+        },
+        {
+            "name": "gmp",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-gmp",
+            "dependancies": [],
+            "libraries": ["mpir"]
+        },
+        {
+            "name": "mhash",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-mhash",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "iconv",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-iconv",
+            "dependancies": [],
+            "libraries": ["libiconv"]
+        },
+        {
+            "name": "intl",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-intl=static",
+            "dependancies": [],
+            "libraries": ["ICU"]
+        },
+        {
+            "name": "ldap",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-ldap",
+            "dependancies": [],
+            "libraries": ["openldap", "openssl", "libsasl"]
+        },
+        {
+            "name": "mbstring",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-mbstring",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "mbregex",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-mbregex",
+            "dependancies": ["mbstring"],
+            "libraries": ["libonig"]
+        },
+        {
+            "name": "mysqlnd",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-mysqlnd",
+            "dependancies": [],
+            "libraries": ["zlib"]
+        },
+        {
+            "name": "odbc",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-odbc",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "pgsql",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-pgsql",
+            "dependancies": [],
+            "libraries": ["libpq"]
+        },
+        {
+            "name": "readline",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-readline",
+            "dependancies": [],
+            "libraries": ["wineditline"]
+        },
+        {
+            "name": "shmop",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-shmop",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "sockets",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-sockets",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "sodium",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-sodium",
+            "dependancies": [],
+            "libraries": ["libsodium"]
+        },
+        {
+            "name": "sqlite3",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-sqlite3",
+            "dependancies": [],
+            "libraries": ["sqlite3"]
+        },
+        {
+            "name": "argon2",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-password-argon2",
+            "dependancies": [],
+            "libraries": ["libargon2"]
+        },
+        {
+            "name": "sysvshm",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-sysvshm",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "tidy",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-tidy",
+            "dependancies": [],
+            "libraries": ["libtidy"]
+        },
+        {
+            "name": "tokenizer",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-tokenizer",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "libxml",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-libxml",
+            "dependancies": ["iconv"],
+            "libraries": ["libxml2"]
+        },
+        {
+            "name": "dom",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-dom",
+            "dependancies": ["libxml", "iconv"],
+            "libraries": []
+        },
+        {
+            "name": "exif",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-exif",
+            "dependancies": ["mbstring", "mbregex"],
+            "libraries": []
+        },
+        {
+            "name": "mysqli",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-mysqli",
+            "dependancies": ["mysqlnd"],
+            "libraries": []
+        },
+        {
+            "name": "pdo",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-pdo",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "pdo_mysql",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-pdo-mysql",
+            "dependancies": ["pdo"],
+            "libraries": []
+        },
+        {
+            "name": "pdo_odbc",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-pdo-odbc",
+            "dependancies": ["pdo"],
+            "libraries": []
+        },
+        {
+            "name": "pdo_pgsql",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-pdo-pgsql",
+            "dependancies": ["pdo"],
+            "libraries": ["libpq"]
+        },
+        {
+            "name": "pdo_sqlite",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-pdo-sqlite",
+            "dependancies": ["pdo"],
+            "libraries": ["sqlite3"]
+        },
+        {
+            "name": "simplexml",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-simplexml",
+            "dependancies": ["libxml", "iconv"],
+            "libraries": []
+        },
+        {
+            "name": "soap",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-soap",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "xml",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-xml",
+            "dependancies": ["libxml", "iconv"],
+            "libraries": []
+        },
+        {
+            "name": "xmlreader",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-xmlreader",
+            "dependancies": ["libxml", "dom", "iconv"],
+            "libraries": []
+        },
+        {
+            "name": "xmlwriter",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--enable-xmlwriter",
+            "dependancies": ["libxml", "iconv"],
+            "libraries": []
         }
     ],
     
@@ -262,7 +568,7 @@
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/zlib-1.2.12-vs16-x64.zip",
             "install_script": "install_library.php",
             "install_check": "lib\\zlib_a.lib",
-            "mandatory": true,
+            "mandatory": false,
             "dependancies": []
         },
         {
@@ -429,6 +735,159 @@
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libavif-0.9.0-1-vs16-x64.zip",
             "install_script": "install_library.php",
             "install_check": "lib\\avif_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libintl",
+            "version": "0.18.3-8",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libintl-0.18.3-8-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libintl_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "mpir",
+            "version": "3.0.0",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/mpir-3.0.0-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\mpir_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "c-client",
+            "version": "2007f-1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/c-client-2007f-1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\cclient_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "ICU",
+            "version": "72.1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/ICU-72.1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\icuuc.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "openldap",
+            "version": "2.4.47-1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/openldap-2.4.47-1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\oldap32_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libsasl",
+            "version": "2.1.27-3",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libsasl-2.1.27-3-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libsasl.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libonig",
+            "version": "6.9.8",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libonig-6.9.8-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\onig_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libpq",
+            "version": "11.4-1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libpq-11.4-1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libpq_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "wineditline",
+            "version": "2.206",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/wineditline-2.206-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\edit_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "net-snmp",
+            "version": "5.7.3-3",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/net-snmp-5.7.3-3-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\netsnmp.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libsodium",
+            "version": "1.0.18",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libsodium-1.0.18-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libsodium_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "sqlite3",
+            "version": "3.40.0",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/sqlite3-3.40.0-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libsqlite3_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libargon2",
+            "version": "20190702",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libargon2-20190702-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\argon2_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libtidy",
+            "version": "5.6.0-2",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libtidy-5.6.0-2-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\tidy_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libxml2",
+            "version": "2.10.3",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libxml2-2.10.3-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libxml2_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "fbclient",
+            "version": "3.0.6",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/fbclient-3.0.6-nocrt-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\fbclient_ms.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libxslt",
+            "version": "1.1.37",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libxslt-1.1.37-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libxslt_a.lib",
             "mandatory": false,
             "dependancies": []
         }

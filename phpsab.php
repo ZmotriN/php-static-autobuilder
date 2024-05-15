@@ -75,12 +75,12 @@ if(!empty($argv[2]) && $argv[2] == 'test') $CONFIG['build']['test'] = true;
 /**
  * Loading Information Matrix
  */
-draw_line("Loading matrix", 'running', Yellow);
+draw_line("Load matrix", 'running', Yellow);
 if(is_file(DIR.'matrix.json')) $contents = @file_get_contents(DIR.'matrix.json');
 else $contents = curl_get_contents('https://raw.githubusercontent.com/ZmotriN/php-static-autobuilder/main/matrix.json');
-if(!$contents) draw_status("Loading matrix", 'failed', Red, true);
-if(!$MATRIX = @json_decode($contents)) draw_status("Loading matrix", 'failed', Red, true);
-draw_status("Loading matrix", 'complete', Green);
+if(!$contents) draw_status("Load matrix", 'failed', Red, true);
+if(!$MATRIX = @json_decode($contents)) draw_status("Load matrix", 'failed', Red, true);
+draw_status("Load matrix", 'complete', Green);
 
 
 /**
