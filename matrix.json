@@ -110,6 +110,29 @@
             "libraries": []
         },
         {
+            "name": "event",
+            "repo": "",
+            "url": "https://pecl.php.net/get/event-3.1.3.tgz",
+            "version": "3.1.3",
+            "install_script": "ext_event.php",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-event=static",
+            "dependancies": ["sockets"],
+            "libraries": ["libevent"]
+        },
+        {
+            "name": "parallel",
+            "repo": "",
+            "url": "https://pecl.php.net/get/parallel-1.2.1.tgz",
+            "version": "1.2.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-parallel",
+            "dependancies": [],
+            "libraries": ["pthread"]
+        },
+        {
             "name": "zlib",
             "repo": "",
             "builtin": true,
@@ -629,6 +652,22 @@
             "install_script": "install_curl.php",
             "mandatory": false,
             "dependancies": ["openssl", "libssh2", "nghttp2", "zlib"]
+        },
+        {
+            "name": "pthread",
+            "version": "3.0.3.1",
+            "download_url": "https://github.com/GerHobbelt/pthread-win32/archive/refs/heads/master.zip",
+            "install_script": "install_pthread.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libevent",
+            "version": "2.1.12",
+            "download_url": "https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz",
+            "install_script": "install_libevent.php",
+            "mandatory": false,
+            "dependancies": ["openssl", "pthread"]
         },
         {
             "name": "libqdbm",

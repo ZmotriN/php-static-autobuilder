@@ -29,6 +29,8 @@ if (!empty($ext->repo)) {
         if (!rename_wait($tmpdir, $path)) exit_error("Can't rename extension folder");
         file_put_contents($path . 'version-static.txt', $ext->version);
 
+        if(!empty($ext->install_script)) include(MASTER . 'php\\' . $ext->install_script);
+
         draw_status($ext->name . '-' . $ext->version, 'installed', Green);
     } elseif (is_file($path . 'version-static.txt')) {
         $version = file_get_contents($path . 'version-static.txt');
@@ -46,6 +48,8 @@ if (!empty($ext->repo)) {
             if (!is_dir($tmpdir)) exit_error("Can't find extension folder");
             if (!rename_wait($tmpdir, $path)) exit_error("Can't rename extension folder");
             file_put_contents($path . 'version-static.txt', $ext->version);
+
+            if(!empty($ext->install_script)) include(MASTER . 'php\\' . $ext->install_script);
 
             draw_status($ext->name . '-' . $ext->version, 'installed', Green);
         } else {
