@@ -56,3 +56,7 @@ For the full list of extensions, see [config.full.ini](https://github.com/Zmotri
 - clean: (optional) to create a clean build
 
 ## Troubleshooting
+
+## Create standalone application
+
+## About
