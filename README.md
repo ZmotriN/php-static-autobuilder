@@ -55,8 +55,16 @@ For the full list of extensions, see [config.full.ini](https://github.com/Zmotri
 - test: (optional) to test your configuration without compiling PHP
 - clean: (optional) to create a clean build
 
+
+## Costum matrix file
+
 ## Troubleshooting
 
 ## Create standalone application
+
+## Collaboration
+
+## TODO
+- Include phar file by resource
 
 ## About
