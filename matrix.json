@@ -605,6 +605,73 @@
             "switch": "--with-maxminddb",
             "dependancies": [],
             "libraries": ["libmaxminddb"]
+        },
+        {
+            "name": "csv",
+            "repo": "",
+            "url": "https://pecl.php.net/get/CSV-0.4.2.tgz",
+            "version": "0.4.2",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-csv",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "lzf",
+            "repo": "",
+            "url": "https://pecl.php.net/get/LZF-1.7.0.tgz",
+            "version": "1.7.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-lzf",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "translit",
+            "repo": "",
+            "url": "https://pecl.php.net/get/translit-0.7.1.tgz",
+            "version": "0.7.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-translit",
+            "dependancies": ["iconv"],
+            "libraries": []
+        },
+        {
+            "name": "geospatial",
+            "repo": "",
+            "url": "https://pecl.php.net/get/geospatial-0.3.2.tgz",
+            "version": "0.3.2",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-geospatial",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "trader",
+            "repo": "",
+            "url": "https://pecl.php.net/get/trader-0.5.1.tgz",
+            "version": "0.5.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-trader",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "oauth",
+            "repo": "",
+            "url": "https://pecl.php.net/get/oauth-2.0.7.tgz",
+            "version": "2.0.7",
+            "install_script": "ext_oauth.php",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-oauth=static",
+            "dependancies": [],
+            "libraries": ["curl", "zlib"]
         }
     ],
     
@@ -967,6 +1034,14 @@
             "version": "5.4.6",
             "download_url": "https://www.lua.org/ftp/lua-5.4.6.tar.gz",
             "install_script": "install_lua.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libyaml",
+            "version": "0.2.5",
+            "download_url": "https://github.com/yaml/libyaml/archive/refs/heads/master.zip",
+            "install_script": "install_libyaml.php",
             "mandatory": false,
             "dependancies": []
         }

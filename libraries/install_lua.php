@@ -11,8 +11,6 @@ if (is_dir($path) && is_file($path . 'src\build\lib\liblua.lib') && is_file(DEPS
 }
 
 
-die();
-
 // Download and unzip library
 $tmpfile = TMP.pathinfo($lib->download_url, PATHINFO_BASENAME);
 if(!download_file($lib->download_url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASENAME))) exit_error();
@@ -53,7 +51,7 @@ $bat .= 'link /OUT:build\bin\luac.exe luac.o build\lib\liblua.lib'.RN;
 
 $batfile = TMP . 'build_lua.bat';
 file_put_contents($batfile, $bat);
-$ret = shell_exec_vs16($batfile, true);
+$ret = shell_exec_vs16($batfile);
 file_put_contents($lualog, $ret);
 
 

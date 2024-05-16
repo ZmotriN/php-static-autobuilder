@@ -20,7 +20,7 @@ const MASTER = DIR.'master\\';
 const CONFIG = DIR.'configs\\';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 const MAX_BUFFER_WIDTH = 100;
-const SPEED_DEV = true;
+const SPEED_DEV = false;
 
 
 draw_header("PHP Static Autobuilder");
@@ -80,7 +80,7 @@ if(is_file(DIR.'matrix.json')) $contents = @file_get_contents(DIR.'matrix.json')
 else $contents = curl_get_contents('https://raw.githubusercontent.com/ZmotriN/php-static-autobuilder/main/matrix.json');
 if(!$contents) draw_status("Load matrix", 'failed', Red, true);
 if(!$MATRIX = @json_decode($contents)) draw_status("Load matrix", 'failed', Red, true);
-draw_status("Load matrix", 'complete', Green);
+draw_status("Load matrix", 'loaded', Green);
 
 
 /**
