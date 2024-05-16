@@ -34,7 +34,8 @@ if (!empty($ext->repo)) {
         draw_status($ext->name . '-' . $ext->version, 'installed', Green);
     } elseif (is_file($path . 'version-static.txt')) {
         $version = file_get_contents($path . 'version-static.txt');
-        if (version_compare($ext->version, $version) > 0) {
+        // if (version_compare($ext->version, $version) > 0) {
+        if ($ext->version != $version) {
             
             rm_dir($path);
             $tmpfile = TMP . pathinfo($ext->url, PATHINFO_BASENAME);
