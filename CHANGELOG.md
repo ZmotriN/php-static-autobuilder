@@ -12,7 +12,8 @@
 - teds Tentative Extra Data Structures support
 - jsonpath support
 - msgpack support
-- simdjson jupport
+- simdjson support
+- xhprof support
 
 ### Changed
 - git clone and pull recursive

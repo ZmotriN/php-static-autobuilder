@@ -1,0 +1,11 @@
+--- "..\\php-8.3.7-original\\ext\\phar\\phar.c"	2024-05-07 12:35:26.000000000 -0400
++++ "ext\\phar\\phar.c"	2024-05-18 13:42:21.278843600 -0400
+@@ -3302,7 +3302,7 @@
+ 	if (!file_handle || !file_handle->filename) {
+ 		return phar_orig_compile_file(file_handle, type);
+ 	}
+-	if (strstr(ZSTR_VAL(file_handle->filename), ".phar") && !strstr(ZSTR_VAL(file_handle->filename), "://")) {
++	if (strstr(ZSTR_VAL(file_handle->filename), ".phar") || strstr(ZSTR_VAL(file_handle->filename), "res://")) {
+ 		if (SUCCESS == phar_open_from_filename(ZSTR_VAL(file_handle->filename), ZSTR_LEN(file_handle->filename), NULL, 0, 0, &phar, NULL)) {
+ 			if (phar->is_zip || phar->is_tar) {
+ 				zend_file_handle f;
