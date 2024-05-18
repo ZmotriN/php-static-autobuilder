@@ -11,8 +11,10 @@
 
 
 // TODO: constants SCRIPTS, SDK
+// TODO: separate update command
 
-const VERSION = "0.1.0";
+
+const VERSION = "0.1.1";
 const TMP = DIR.'tmp\\';
 const LOG = DIR.'logs\\';
 const BUILD = DIR.'build\\';

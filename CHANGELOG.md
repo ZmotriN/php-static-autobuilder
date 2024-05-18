@@ -1,6 +1,15 @@
 # Change Log
 
+
 ## [Unreleased] - yyyy-mm-dd
+
+### Added
+
+### Changed
+
+### Fixed
+
+## [0.1.1] - 2024-05-18
 
 ### Added
 - haru pdf support
