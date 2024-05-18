@@ -67,7 +67,7 @@ If you get a compiling error, before opening an issue, try a clean build.
 ```
 If the error persists, open an issue with the appropriate log file. Any issue without log file will be rejected.
 
-# How does it works
+## How does it works
 After building the static embed libraries, PHPSAB use them to create a very simple program that include the embed SAPI and execute the content of the resource "res:///PHP/RUN". The res stream protocol is provided by win32std extension. So that's where we put the PHP application bootstrap or the PHAR archive. Look at the "master/bootstrap" folder for simple examples.
 
 
