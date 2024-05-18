@@ -662,16 +662,66 @@
             "libraries": []
         },
         {
-            "name": "oauth",
-            "repo": "",
-            "url": "https://pecl.php.net/get/oauth-2.0.7.tgz",
-            "version": "2.0.7",
-            "install_script": "ext_oauth.php",
+            "name": "haru",
+            "repo": "https://github.com/dionx/pecl-haru.git",
             "builtin": false,
             "mandatory": false,
-            "switch": "--with-oauth=static",
+            "switch": "--with-haru",
             "dependancies": [],
-            "libraries": ["curl", "zlib"]
+            "libraries": ["libharu", "libpng", "zlib"]
+        },
+        {
+            "name": "dio",
+            "repo": "",
+            "url": "https://pecl.php.net/get/dio-0.3.0.tgz",
+            "version": "0.3.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-dio",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "sync",
+            "repo": "",
+            "url": "https://pecl.php.net/get/sync-1.1.3.tgz",
+            "version": "1.1.3",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-sync",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "win32service",
+            "repo": "",
+            "url": "https://pecl.php.net/get/win32service-1.0.2.tgz",
+            "version": "1.0.2",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-win32service",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "win32ps",
+            "repo": "https://github.com/ZmotriN/php-win32ps.git",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-win32ps",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "ssh2",
+            "repo": "",
+            "url": "https://pecl.php.net/get/ssh2-1.4.1.tgz",
+            "version": "1.4.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-ssh2",
+            "dependancies": ["zlib"],
+            "libraries": ["libssh2"]
         }
     ],
     
@@ -1042,6 +1092,14 @@
             "version": "0.2.5",
             "download_url": "https://github.com/yaml/libyaml/archive/refs/heads/master.zip",
             "install_script": "install_libyaml.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libharu",
+            "version": "2.3.0",
+            "download_url": "https://github.com/libharu/libharu/archive/refs/tags/RELEASE_2_3_0.zip",
+            "install_script": "install_libharu.php",
             "mandatory": false,
             "dependancies": []
         }

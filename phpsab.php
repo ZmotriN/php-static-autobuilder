@@ -1,16 +1,16 @@
 <?php
 
 /**
-*
 * ██████╗ ██╗  ██╗██████╗ ███████╗ █████╗ ██████╗ 
 * ██╔══██╗██║  ██║██╔══██╗██╔════╝██╔══██╗██╔══██╗
 * ██████╔╝███████║██████╔╝███████╗███████║██████╔╝
 * ██╔═══╝ ██╔══██║██╔═══╝ ╚════██║██╔══██║██╔══██╗
 * ██║     ██║  ██║██║     ███████║██║  ██║██████╔╝
 * ╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝╚═════╝ 
-* 
 */
 
+
+// TODO: constants SCRIPTS, SDK
 
 const VERSION = "0.1.0";
 const TMP = DIR.'tmp\\';
@@ -20,7 +20,7 @@ const MASTER = DIR.'master\\';
 const CONFIG = DIR.'configs\\';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 const MAX_BUFFER_WIDTH = 100;
-const SPEED_DEV = false;
+const SPEED_DEV = true;
 
 
 draw_header("PHP Static Autobuilder");
@@ -311,7 +311,7 @@ if(!is_dir(MASTER)) {
 } elseif(is_dir(MASTER.'.git')) {
     draw_line("Update master scripts", 'running', Yellow);
     git_update(MASTER);
-    draw_status("Cloning master scripts", 'up-to-date', Green);
+    draw_status("Update master scripts", 'up-to-date', Green);
 }
 
 
@@ -437,7 +437,7 @@ function shell_exec_vs16_phpsdk($taskfile, $verbose = false)
 
 function git_clone($repo, $dir)
 {
-    $ret = shell_exec('git clone ' . escapeshellarg($repo) . ' '.escapeshellarg(rtrim($dir, '\\')) . ' 2>&1');
+    $ret = shell_exec('git clone  --recurse-submodules ' . escapeshellarg($repo) . ' '.escapeshellarg(rtrim($dir, '\\')) . ' 2>&1');
     file_put_contents(LOG.'git.log', $ret.RN, FILE_APPEND);
     return is_dir($dir);
 }
@@ -447,7 +447,7 @@ function git_update($dir)
 {
     $lastdir = getcwd();
     chdir($dir);
-    $ret = shell_exec('git pull 2>&1');
+    $ret = shell_exec('git pull --recurse-submodules 2>&1');
     file_put_contents(LOG.'git.log', $ret.RN, FILE_APPEND);
     chdir($lastdir);
     return true;
@@ -559,7 +559,6 @@ function curl_get_file_size($url)
 function curl_file_exists(string $url)
 {
     $curl = curl_init($url);
-
     curl_setopt($curl, CURLOPT_NOBODY, true);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -693,6 +692,19 @@ function zip_first_dir($zipfile)
     if(!$first = $zip->getNameIndex(0)) return false;
     $zip->close();
     return rtrim($first, '/');
+}
+
+
+function create_build($path, $files)
+{
+    $path = rtrim($path, '\\') . '\\';
+    foreach($files as $src => $dst) {
+        if(!is_file($src)) return false;
+        $dstpath = pathinfo($path . $dst, PATHINFO_DIRNAME);
+        if(!is_dir($dstpath) && !@mkdir($dstpath, 0777, true)) return false;
+        if(!@copy($src, $path . $dst)) return false;
+    }
+    return true;
 }
 
 

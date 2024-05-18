@@ -43,9 +43,9 @@ wcli = Yes ; Windows CLI native support
 
 ; ffi = Yes
 ; com_dotnet = Yes
-; readline = true
+; readline = Yes
 ```
-For the full list of extensions, see [config.full.ini](https://github.com/ZmotriN/php-static-autobuilder/blob/main/config.full.ini)
+For the full list of supported extensions, see [config.full.ini](https://github.com/ZmotriN/php-static-autobuilder/blob/main/config.full.ini)
 
 ### Usage
 ```shell
@@ -61,6 +61,8 @@ For the full list of extensions, see [config.full.ini](https://github.com/Zmotri
 ## Troubleshooting
 
 ## Create standalone application
+
+## Winbinder + GD
 
 ## Collaboration
 
