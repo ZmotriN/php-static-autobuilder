@@ -787,6 +787,18 @@
             "switch": "--enable-simdjson",
             "dependancies": [],
             "libraries": []
+        },
+        {
+            "name": "xhprof",
+            "repo": "",
+            "url": "https://pecl.php.net/get/xhprof-2.3.9.tgz",
+            "version": "2.3.9",
+            "install_script": "ext_xhprof.php",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-xhprof",
+            "dependancies": [],
+            "libraries": []
         }
     ],
     

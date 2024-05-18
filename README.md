@@ -61,12 +61,14 @@ For the full list of supported extensions, see [config.full.ini](https://github.
 ## Troubleshooting
 
 ## Create standalone application
+- Phar-composer
+- Embeder
+- res_set()
 
 ## Winbinder + GD
 
 ## Collaboration
 
 ## TODO
-- Include phar file by resource
 
 ## About

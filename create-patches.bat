@@ -7,4 +7,5 @@ diff -bur ..\php-8.3.7-original\Zend\zend_stream.c Zend\zend_stream.c > patches\
 diff -bur ..\php-8.3.7-original\ext\fileinfo\config.w32 ext\fileinfo\config.w32 > patches\fileinfo.patch
 diff -bur ..\php-8.3.7-original\ext\imap\config.w32 ext\imap\config.w32 > patches\imap.patch
 diff -bur ..\php-8.3.7-original\ext\intl\config.w32 ext\intl\config.w32 > patches\intl.patch
+diff -bur ..\php-8.3.7-original\ext\phar\phar.c ext\phar\phar.c > patches\phar.patch
 
