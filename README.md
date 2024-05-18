@@ -57,10 +57,19 @@ For the full list of supported extensions, see [config.full.ini](https://github.
 
 
 ## Costum matrix file
+If you want to work with a costum matrix, copy the file "master/matrix.json" in the root folder. PHPSAB will check for offline matrix before scrap it from github.
+
 
 ## Troubleshooting
+If you get a compiling error, before opening an issue, try a clean build.
+```shell
+> phpsab configname clean
+```
+If the error persists, open an issue with the appropriate log file. Any issue without logfile will be rejected.
 
 ## Create standalone application
+Once you have a functionnal static php,  you have multiple options to create your standalone single file application.
+
 - Phar-composer
 - Embeder
 - res_set()
