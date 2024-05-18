@@ -90,10 +90,6 @@ PHPSAB contains a modified version of [Winbinder](https://github.com/ZmotriN/Win
 ```php
 <?php
 
-// Set ini setting to be able to use low level functions
-ini_set('winbinder.low_level_functions', 1);
-
-
 // Create window and image frame
 define('IDC_IMAGE', 1001);
 $win = wb_create_window(null, AppWindow, 'GD Winbinder', WBC_CENTER, WBC_CENTER, 220, 220, 0x00000000, 0);
