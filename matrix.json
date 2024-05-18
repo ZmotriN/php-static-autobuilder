@@ -722,6 +722,71 @@
             "switch": "--with-ssh2",
             "dependancies": ["zlib"],
             "libraries": ["libssh2"]
+        },
+        {
+            "name": "ds",
+            "repo": "",
+            "url": "https://pecl.php.net/get/ds-1.5.0.tgz",
+            "version": "1.5.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-ds",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "judy",
+            "repo": "https://github.com/mikhainin/php-judy.git",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-judy",
+            "dependancies": [],
+            "libraries": ["libjudy"]
+        },
+        {
+            "name": "teds",
+            "repo": "",
+            "url": "https://pecl.php.net/get/teds-1.3.0.tgz",
+            "version": "1.3.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-teds",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "jsonpath",
+            "repo": "",
+            "url": "https://pecl.php.net/get/jsonpath-2.1.0.tgz",
+            "version": "2.1.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-jsonpath",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "msgpack",
+            "repo": "",
+            "url": "https://pecl.php.net/get/msgpack-2.2.0.tgz",
+            "version": "2.2.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-msgpack",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "simdjson",
+            "repo": "",
+            "url": "https://pecl.php.net/get/simdjson-4.0.0.tgz",
+            "version": "4.0.0",
+            "install_script": "ext_simdjson.php",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-simdjson",
+            "dependancies": [],
+            "libraries": []
         }
     ],
     
@@ -1100,6 +1165,14 @@
             "version": "2.3.0",
             "download_url": "https://github.com/libharu/libharu/archive/refs/tags/RELEASE_2_3_0.zip",
             "install_script": "install_libharu.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libjudy",
+            "version": "1.0.5",
+            "download_url": "https://github.com/netdata/libjudy/archive/refs/heads/master.zip",
+            "install_script": "install_libjudy.php",
             "mandatory": false,
             "dependancies": []
         }
