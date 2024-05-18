@@ -85,7 +85,43 @@ var_dump(res_set($release, 'PHP', 'RUN', $contents));
 ```
 
 ## Winbinder + GD
+PHPSAB contains a modified version of [Winbinder](https://github.com/ZmotriN/Winbinder-PHP8) with a lot of new features like drag & drop files, access WMI etc. Originaly, Winbinder uses Freeimage.dll to process images but PHPSAB now provide a bridge to use built-in static GD instead. Example:
+```php
+<?php
 
+// Set ini setting to be able to use low level functions
+ini_set('winbinder.low_level_functions', 1);
+
+
+// Create window and image frame
+define('IDC_IMAGE', 1001);
+$win = wb_create_window(null, AppWindow, 'GD Winbinder', WBC_CENTER, WBC_CENTER, 220, 220, 0x00000000, 0);
+$frame = wb_create_control($win, Frame, '', 10, 10, 200, 200, IDC_IMAGE, 0x00000004, 0, 0);
+
+
+// Load PNG image with GD
+$im = imagecreatefrompng(__DIR__."\\gd-logo.png");
+
+// Convert GD image into BITMAP24 matrix
+$matrix = imagegetbitmap24($im);
+
+// Get variable address
+$ptr = wb_get_address($matrix);
+
+// Create a WB Image with the BMP matrix
+$img = wb_create_image(imagesx($im), imagesy($im), $ptr + GD_BITMAP24_HEADER, $ptr + GD_BITMAP24_BITS);
+
+// Destroy GD image
+imagedestroy($im);
+unset($matrix);
+
+// Apply the image to the image frame
+wb_set_image($frame, $img);
+
+
+// Main loop
+wb_main_loop();
+```
 
 ## License
 The scripts and documentation in this project are released under the [MIT License](https://github.com/ZmotriN/php-static-autobuilder/blob/main/LICENSE)
