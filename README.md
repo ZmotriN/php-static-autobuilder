@@ -65,19 +65,27 @@ If you get a compiling error, before opening an issue, try a clean build.
 ```shell
 > phpsab configname clean
 ```
-If the error persists, open an issue with the appropriate log file. Any issue without logfile will be rejected.
+If the error persists, open an issue with the appropriate log file. Any issue without log file will be rejected.
+
+# How does it works
+After building the static embed libraries, PHPSAB use them to create a very simple program that include the embed SAPI and execute the content of the resource "res:///PHP/RUN". The res stream protocol is provided by win32std extension. So that's where we put the PHP application bootstrap or the PHAR archive. Look at the "master/bootstrap" folder for simple examples.
+
 
 ## Create standalone application
 Once you have a functionnal static php,  you have multiple options to create your standalone single file application.
 
-- Phar-composer
-- Embeder
-- res_set()
+- [Phar-composer](https://github.com/clue/phar-composer) is a simple phar creation for any project managed via Composer.
+- [Embeder2](https://github.com/crispy-computing-machine/embedder2) is a command line program to add resources to your .exe file.
+- res_set() is a function provided by [win32std](http://wildphp.free.fr/wiki/doku.php?id=win32std:index) extension to add resources to your .exe file.
+Example:
+```php
+$release = __DIR__ . '\php-static.exe';
+$contents = file_get_contents(__DIR__ . '\test.phar');
+var_dump(res_set($release, 'PHP', 'RUN', $contents));
+```
 
 ## Winbinder + GD
 
-## Collaboration
 
-## TODO
-
-## About
+## License
+The scripts and documentation in this project are released under the [MIT License](https://github.com/ZmotriN/php-static-autobuilder/blob/main/LICENSE)
