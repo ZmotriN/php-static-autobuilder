@@ -1,5 +1,5 @@
 # PHPSAB - PHP Static Autobuilder
-PHP Static Autobuilder is script that let you build static single PHP Embed SAPI application for Windows. It take care of download, compile and install PHP and all of its dependancies for you.
+PHP Static Autobuilder is script that let you build static single PHP Embed SAPI application for Windows. It take care of download, compile and install PHP and all of its dependencies for you.
 
 ## Warning!
 Effin' Windows Defender don't like Embed SAPI. If you get a warning, ignore it. There is no Trojan Horse. All the code is open soure.
@@ -79,6 +79,7 @@ Once you have a functionnal static php,  you have multiple options to create you
 - res_set() is a function provided by [win32std](http://wildphp.free.fr/wiki/doku.php?id=win32std:index) extension to add resources to your .exe file.
 Example:
 ```php
+<?php
 $release = __DIR__ . '\php-static.exe';
 $contents = file_get_contents(__DIR__ . '\test.phar');
 var_dump(res_set($release, 'PHP', 'RUN', $contents));
