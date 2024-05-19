@@ -15,7 +15,7 @@ $yamllog = LOG . 'libyaml.log';
 
 
 // Verify if libyaml is installed
-if (is_dir($path) && is_file($path . 'build\lib\libyaml.lib') && is_file(DEPS_PATH . 'lib\libyaml.lib')) {
+if (is_dir($path) && is_file($path . 'build\lib\libyaml_a.lib') && is_file(DEPS_PATH . 'lib\libyaml_a.lib')) {
     draw_status($lib->name . '-' . $lib->version, "installed", Green);
     return;
 }
@@ -26,7 +26,8 @@ $tmpfile = TMP.pathinfo($lib->download_url, PATHINFO_BASENAME);
 if(!download_file($lib->download_url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASENAME))) exit_error();
 if(!$firstdir = zip_first_dir($tmpfile)) exit_error("Invalid zip archive");
 if(!unzip($tmpfile, ARCH_PATH)) exit_error();
-if(!rename_wait(ARCH_PATH . $firstdir, $path)) exit_error("Can't rename library path");
+if(!is_dir($path)) exit_error("Can't find archive extracted result");
+// if(!rename_wait(ARCH_PATH . $firstdir, $path)) exit_error("Can't rename library path");
 
 
 // Compile libyaml
@@ -51,7 +52,7 @@ else draw_status($label, "complete", Green);
 $label = "Install " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 $builddir = $path . 'build\\';
-$files[$path . 'Release\yaml.lib'] = 'lib\libyaml.lib';
+$files[$path . 'Release\yaml.lib'] = 'lib\libyaml_a.lib';
 $files[$path . 'include\yaml.h'] = 'include\yaml.h';
 if(!create_build($builddir, $files)) draw_status($label, "failed", Red, true);
 if(!install_deps($builddir)) draw_status($label, "failed", Red, true);

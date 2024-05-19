@@ -799,6 +799,17 @@
             "switch": "--enable-xhprof",
             "dependancies": [],
             "libraries": []
+        },
+        {
+            "name": "yaml",
+            "repo": "",
+            "url": "https://pecl.php.net/get/yaml-2.2.3.tgz",
+            "version": "2.2.3",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-yaml",
+            "dependancies": [],
+            "libraries": ["libyaml"]
         }
     ],
     
@@ -1166,8 +1177,8 @@
         },
         {
             "name": "libyaml",
-            "version": "0.2.5",
-            "download_url": "https://github.com/yaml/libyaml/archive/refs/heads/master.zip",
+            "version": "0.1.7",
+            "download_url": "https://github.com/yaml/libyaml/archive/refs/tags/0.1.7.zip",
             "install_script": "install_libyaml.php",
             "mandatory": false,
             "dependancies": []

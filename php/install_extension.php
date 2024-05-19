@@ -14,17 +14,19 @@
 $path = EXT_PATH . $ext->name . '\\';
 
 if (!empty($ext->repo)) {
-    if (!SPEED_DEV) {
-        if (!is_dir($path)) {
-            draw_line($ext->name, 'cloning', Yellow);
-            if (git_clone($ext->repo, $path)) draw_status($ext->name, 'up-to-date', Green);
-            else draw_status($ext->name, 'failed', Red, true, "Can't clone extension repo");
-        } else {
+    
+    if (!is_dir($path)) {
+        draw_line($ext->name, 'cloning', Yellow);
+        if (git_clone($ext->repo, $path)) draw_status($ext->name, 'up-to-date', Green);
+        else draw_status($ext->name, 'failed', Red, true, "Can't clone extension repo");
+    } else {
+        if (!SPEED_DEV) {
             draw_line($ext->name, 'updating', Yellow);
             if (git_update($path)) draw_status($ext->name, 'up-to-date', Green);
             else draw_status($ext->name, 'failed', Red, true, "Can't update extension repo");
         }
     }
+    
 } elseif (!empty($ext->url) && !empty($ext->version)) {
     // TODO: OPTIMIZE
     if (!is_dir($path)) {
