@@ -735,15 +735,6 @@
             "libraries": []
         },
         {
-            "name": "judy",
-            "repo": "https://github.com/mikhainin/php-judy.git",
-            "builtin": false,
-            "mandatory": false,
-            "switch": "--with-judy",
-            "dependancies": [],
-            "libraries": ["libjudy"]
-        },
-        {
             "name": "teds",
             "repo": "",
             "url": "https://pecl.php.net/get/teds-1.3.0.tgz",
@@ -810,9 +801,97 @@
             "switch": "--with-yaml",
             "dependancies": [],
             "libraries": ["libyaml"]
+        },
+        {
+            "name": "apcu",
+            "repo": "",
+            "url": "https://pecl.php.net/get/apcu-5.1.23.tgz",
+            "version": "5.1.23",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-apcu",
+            "dependancies": ["igbinary"],
+            "libraries": []
+        },
+        {
+            "name": "yac",
+            "repo": "",
+            "url": "https://pecl.php.net/get/yac-2.3.1.tgz",
+            "version": "2.3.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-yac",
+            "dependancies": ["igbinary"],
+            "libraries": []
+        },
+        {
+            "name": "dbase",
+            "repo": "",
+            "url": "https://pecl.php.net/get/dbase-7.1.1.tgz",
+            "version": "7.1.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-dbase",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "raphf",
+            "repo": "",
+            "url": "https://pecl.php.net/get/raphf-2.0.1.tgz",
+            "version": "2.0.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-raphf",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "pecl_http",
+            "repo": "",
+            "url": "https://pecl.php.net/get/pecl_http-4.2.4.tgz",
+            "version": "4.2.4",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-http",
+            "dependancies": ["raphf"],
+            "libraries": ["ICU", "zlib", "nghttp2", "openssl", "libssh2", "curl", "pthread", "libevent"]
+        },
+        {
+            "name": "bitset",
+            "repo": "",
+            "url": "https://pecl.php.net/get/bitset-3.2.0.tgz",
+            "version": "3.2.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-bitset",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "ast",
+            "repo": "",
+            "url": "https://pecl.php.net/get/ast-1.1.1.tgz",
+            "version": "1.1.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-ast",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "componere",
+            "repo": "",
+            "url": "https://pecl.php.net/get/componere-3.1.2.tgz",
+            "version": "3.1.2",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-componere",
+            "dependancies": [],
+            "libraries": []
         }
     ],
-    
+
     "libraries": [
         {
             "name": "zlib",
@@ -820,6 +899,15 @@
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/zlib-1.2.12-vs16-x64.zip",
             "install_script": "install_library.php",
             "install_check": "lib\\zlib_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "ICU",
+            "version": "72.1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/ICU-72.1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\icuuc.lib",
             "mandatory": false,
             "dependancies": []
         },
@@ -1034,15 +1122,6 @@
             "dependancies": []
         },
         {
-            "name": "ICU",
-            "version": "72.1",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/ICU-72.1-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\icuuc.lib",
-            "mandatory": false,
-            "dependancies": []
-        },
-        {
             "name": "openldap",
             "version": "2.4.47-1",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/openldap-2.4.47-1-vs16-x64.zip",
@@ -1198,6 +1277,22 @@
             "install_script": "install_libjudy.php",
             "mandatory": false,
             "dependancies": []
+        },
+        {
+            "name": "dirent",
+            "version": "20190917",
+            "download_url": "https://github.com/winlibs/dirent/archive/refs/heads/master.zip",
+            "install_script": "install_dirent.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libmcrypt",
+            "version": "2.5.8",
+            "download_url": "https://github.com/winlibs/libmcrypt/archive/refs/tags/libmcrypt-2.5.8-3.4.zip",
+            "install_script": "install_libmcrypt.php",
+            "mandatory": false,
+            "dependancies": ["dirent"]
         }
     ]
 }
