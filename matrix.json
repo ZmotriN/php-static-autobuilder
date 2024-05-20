@@ -1185,15 +1185,6 @@
             "dependancies": []
         },
         {
-            "name": "sqlite3",
-            "version": "3.40.0",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/sqlite3-3.40.0-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\libsqlite3_a.lib",
-            "mandatory": false,
-            "dependancies": []
-        },
-        {
             "name": "libargon2",
             "version": "20190702",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libargon2-20190702-vs16-x64.zip",
@@ -1293,6 +1284,14 @@
             "install_script": "install_libmcrypt.php",
             "mandatory": false,
             "dependancies": ["dirent"]
+        },
+        {
+            "name": "sqlite3",
+            "version": "3.45.3",
+            "download_url": "https://www.sqlite.org/2024/sqlite-amalgamation-3450300.zip",
+            "install_script": "install_libsqlite3.php",
+            "mandatory": false,
+            "dependancies": []
         }
     ]
 }

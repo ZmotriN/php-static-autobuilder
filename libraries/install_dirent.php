@@ -43,11 +43,11 @@ file_put_contents($direntlog, $ret);
 
 
 // Verify if the build works
-if(!is_file($path . 'vc15\x64\Release\dirent_a.lib')) draw_status($label, "failed", Red, true, 'SEE: ' . $dirent);
+if(!is_file($path . 'vc15\x64\Release\dirent_a.lib')) draw_status($label, "failed", Red, true, 'SEE: ' . $direntlog);
 else draw_status($label, "complete", Green);
 
 
-// Install libjudy
+// Install dirent
 $label = "Install " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 $builddir = $path . 'build\\';
