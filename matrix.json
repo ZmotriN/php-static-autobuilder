@@ -1076,15 +1076,6 @@
             "dependancies": []
         },
         {
-            "name": "libwebp",
-            "version": "1.3.2",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libwebp-1.3.2-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\libwebp_a.lib",
-            "mandatory": false,
-            "dependancies": []
-        },
-        {
             "name": "libavif",
             "version": "0.9.0-1",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libavif-0.9.0-1-vs16-x64.zip",
@@ -1202,15 +1193,6 @@
             "dependancies": []
         },
         {
-            "name": "libxml2",
-            "version": "2.10.3",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libxml2-2.10.3-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\libxml2_a.lib",
-            "mandatory": false,
-            "dependancies": []
-        },
-        {
             "name": "fbclient",
             "version": "3.0.6",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/fbclient-3.0.6-nocrt-x64.zip",
@@ -1281,6 +1263,22 @@
             "version": "3.45.3",
             "download_url": "https://www.sqlite.org/2024/sqlite-amalgamation-3450300.zip",
             "install_script": "install_libsqlite3.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libxml2",
+            "version": "2.11.8",
+            "download_url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.11.8/libxml2-v2.11.8.zip",
+            "install_script": "install_libxml2.php",
+            "mandatory": false,
+            "dependancies": ["libiconv"]
+        },
+        {
+            "name": "libwebp",
+            "version": "1.4.0",
+            "download_url": "https://github.com/webmproject/libwebp/archive/refs/tags/v1.4.0.zip",
+            "install_script": "install_libwebp.php",
             "mandatory": false,
             "dependancies": []
         }
