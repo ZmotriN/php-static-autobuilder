@@ -42,7 +42,7 @@ $bat .= 'cd ' . escapeshellarg($path).RN;
 $bat .= 'nmake'.RN;
 $batfile = TMP . 'build_sqlite3.bat';
 file_put_contents($batfile, $bat);
-$ret = shell_exec_vs16($batfile, true);
+$ret = shell_exec_vs16($batfile);
 file_put_contents($sqlite3log, $ret);
 
 

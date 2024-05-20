@@ -27,7 +27,6 @@ if(!download_file($lib->download_url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASE
 if(!$firstdir = zip_first_dir($tmpfile)) exit_error("Invalid zip archive");
 if(!unzip($tmpfile, ARCH_PATH)) exit_error();
 if(!is_dir($path)) exit_error("Can't find archive extracted result");
-// if(!rename_wait(ARCH_PATH . $firstdir, $path)) exit_error("Can't rename library path");
 
 
 // Compile libyaml

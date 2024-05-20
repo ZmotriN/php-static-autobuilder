@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * ███████╗██╗     ██╗██████╗ 
+ * ╚══███╔╝██║     ██║██╔══██╗
+ *   ███╔╝ ██║     ██║██████╔╝
+ *  ███╔╝  ██║     ██║██╔══██╗
+ * ███████╗███████╗██║██████╔╝
+ * ╚══════╝╚══════╝╚═╝╚═════╝ 
+ */
+
 
 $path = ARCH_PATH . $lib->name . '-' . $lib->version . '\\';
 $project = $path . 'contrib\vstudio\vc14\\';
@@ -11,7 +20,6 @@ if (is_dir($path) && is_file($project . 'x64\ZlibStatRelease\zlibstat.lib') && i
     draw_status($lib->name . '-' . $lib->version, "installed", Green);
     return;
 }
-
 
 
 // Download and unzip zlib
@@ -36,7 +44,7 @@ $bat .= 'devenv zlibvc.sln /upgrade'.RN;
 $bat .= 'devenv zlibvc.sln /rebuild "Release|x64"'.RN;
 $batfile = TMP . 'build_zlib.bat';
 file_put_contents($batfile, $bat);
-$ret = shell_exec_vs16($batfile, true);
+$ret = shell_exec_vs16($batfile);
 file_put_contents($zliblog, $ret);
 
 
@@ -60,12 +68,3 @@ if(!install_deps($builddir)) draw_status($label, "failed", Red, true);
 else draw_status($label, "complete", Green);
 
 delete_parent_deps($lib->name);
-
-
-
-
-
-
-
-
-// die();
