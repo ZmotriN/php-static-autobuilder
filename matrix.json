@@ -1040,15 +1040,6 @@
             "dependancies": []
         },
         {
-            "name": "freetype",
-            "version": "2.11.1",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/freetype-2.11.1-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\freetype_a.lib",
-            "mandatory": false,
-            "dependancies": []
-        },
-        {
             "name": "libpng",
             "version": "1.6.34-8",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libpng-1.6.34-8-vs16-x64.zip",
@@ -1279,6 +1270,14 @@
             "version": "1.4.0",
             "download_url": "https://github.com/webmproject/libwebp/archive/refs/tags/v1.4.0.zip",
             "install_script": "install_libwebp.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "freetype",
+            "version": "2.13.2",
+            "download_url": "https://gitlab.freedesktop.org/freetype/freetype/-/archive/VER-2-13-2/freetype-VER-2-13-2.zip",
+            "install_script": "install_freetype.php",
             "mandatory": false,
             "dependancies": []
         }
