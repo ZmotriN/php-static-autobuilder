@@ -1031,15 +1031,6 @@
             "dependancies": []
         },
         {
-            "name": "libjpeg-turbo",
-            "version": "2.1.0",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libjpeg-turbo-2.1.0-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\libjpeg_a.lib",
-            "mandatory": false,
-            "dependancies": []
-        },
-        {
             "name": "libpng",
             "version": "1.6.34-8",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libpng-1.6.34-8-vs16-x64.zip",
@@ -1278,6 +1269,14 @@
             "version": "2.13.2",
             "download_url": "https://gitlab.freedesktop.org/freetype/freetype/-/archive/VER-2-13-2/freetype-VER-2-13-2.zip",
             "install_script": "install_freetype.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libjpeg-turbo",
+            "version": "3.0.3",
+            "download_url": "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/3.0.3.zip",
+            "install_script": "install_libjpeg-turbo.php",
             "mandatory": false,
             "dependancies": []
         }
