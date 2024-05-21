@@ -50,7 +50,7 @@ else draw_status($label, "complete", Green);
 // Install libtidy
 $label = "Install " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
-$builddir = $path . 'build\\';
+$builddir = $path . 'build-win\\';
 
 $files[$path . 'build\cmake\Release\tidy_static.lib'] = 'lib\tidy_a.lib';
 $files[$path . 'include\tidy.h'] = 'include\tidy.h';
