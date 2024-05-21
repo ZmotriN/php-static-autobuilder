@@ -1166,15 +1166,6 @@
             "dependancies": []
         },
         {
-            "name": "libtidy",
-            "version": "5.6.0-2",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libtidy-5.6.0-2-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\tidy_a.lib",
-            "mandatory": false,
-            "dependancies": []
-        },
-        {
             "name": "fbclient",
             "version": "3.0.6",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/fbclient-3.0.6-nocrt-x64.zip",
@@ -1277,6 +1268,14 @@
             "version": "3.0.3",
             "download_url": "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/3.0.3.zip",
             "install_script": "install_libjpeg-turbo.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libtidy",
+            "version": "5.8.0",
+            "download_url": "https://github.com/htacg/tidy-html5/archive/refs/tags/5.8.0.zip",
+            "install_script": "install_libtidy.php",
             "mandatory": false,
             "dependancies": []
         }
