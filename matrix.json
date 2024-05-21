@@ -947,8 +947,8 @@
         },
         {
             "name": "nghttp2",
-            "version": "1.51.0",
-            "download_url": "https://github.com/winlibs/nghttp2/archive/refs/tags/nghttp2-1.51.0.zip",
+            "version": "1.62.1",
+            "download_url": "https://github.com/nghttp2/nghttp2/archive/refs/tags/v1.62.1.zip",
             "install_script": "install_nghttp2.php",
             "mandatory": false,
             "dependancies": []

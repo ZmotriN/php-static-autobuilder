@@ -24,9 +24,8 @@ if (is_dir($path) && is_file($path . 'build\lib\nghttp2.lib') && is_file(DEPS_PA
 // Download and unzip nghttp2
 $tmpfile = TMP.pathinfo($lib->download_url, PATHINFO_BASENAME);
 if(!download_file($lib->download_url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASENAME))) exit_error();
-if(!$firstdir = zip_first_dir($tmpfile)) exit_error("Invalid zip archive");
 if(!unzip($tmpfile, ARCH_PATH)) exit_error();
-if(!rename_wait(ARCH_PATH . $firstdir, $path)) exit_error("Can't rename library path");
+if(!is_dir($path)) exit_error("Can't find unzip results");
 
 
 // Compile nghttp2
@@ -34,7 +33,8 @@ $label = "Compile " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 $bat = '@echo off'.RN;
 $bat .= 'cd ' . escapeshellarg($path).RN;
-$bat .= 'cmake -DCMAKE_INSTALL_PREFIX="%PREFIX%" -DENABLE_STATIC_LIB=YES -DCMAKE_INSTALL_LIBDIR="%PREFIX%\lib" -G "Visual Studio 16 2019" .'.RN;
+$bat .= 'set PATH=%PATH%;' . ARCH_PATH . 'deps'.RN;
+$bat .= 'cmake -DCMAKE_INSTALL_PREFIX="%PREFIX%" -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DCMAKE_INSTALL_LIBDIR="%PREFIX%\lib" -G "Visual Studio 16 2019" .'.RN;
 $bat .= 'cmake --build . --config Release'.RN;
 $batfile = TMP . 'build_nghttp2.bat';
 file_put_contents($batfile, $bat);
