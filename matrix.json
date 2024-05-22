@@ -951,7 +951,7 @@
             "download_url": "https://github.com/nghttp2/nghttp2/archive/refs/tags/v1.62.1.zip",
             "install_script": "install_nghttp2.php",
             "mandatory": false,
-            "dependancies": []
+            "dependancies": ["openssl", "zlib"]
         },
         {
             "name": "libssh2",
@@ -1032,12 +1032,11 @@
         },
         {
             "name": "libpng",
-            "version": "1.6.34-8",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libpng-1.6.34-8-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\libpng_a.lib",
+            "version": "1.6.43",
+            "download_url": "https://github.com/pnggroup/libpng/archive/refs/tags/v1.6.43.zip",
+            "install_script": "install_libpng.php",
             "mandatory": false,
-            "dependancies": []
+            "dependancies": ["zlib"]
         },
         {
             "name": "libiconv",
