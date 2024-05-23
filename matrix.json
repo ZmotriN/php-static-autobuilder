@@ -1233,8 +1233,8 @@
         },
         {
             "name": "sqlite3",
-            "version": "3.45.3",
-            "download_url": "https://www.sqlite.org/2024/sqlite-amalgamation-3450300.zip",
+            "version": "3.46.0",
+            "download_url": "https://www.sqlite.org/2024/sqlite-amalgamation-3460000.zip",
             "install_script": "install_libsqlite3.php",
             "mandatory": false,
             "dependancies": []
