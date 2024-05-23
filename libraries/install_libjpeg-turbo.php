@@ -54,7 +54,7 @@ $label = "Install " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 $builddir = $path . 'build\\';
 
-$files[$path . 'build-win\Release\jpeg-static.lib'] = 'lib\libjpeg_a.lib';
+$files[$path . 'build-win\Release\turbojpeg-static.lib'] = 'lib\libjpeg_a.lib';
 $files[$path . 'build-win\jconfig.h'] = 'include\jconfig.h';
 $files[$path . 'build-win\jversion.h'] = 'include\jversion.h';
 $files[$path . 'jerror.h'] = 'include\jerror.h';

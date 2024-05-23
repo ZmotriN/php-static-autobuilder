@@ -1049,10 +1049,11 @@
         },
         {
             "name": "libxpm",
-            "version": "3.5.12-8",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libxpm-3.5.12-8-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\libxpm_a.lib",
+            "version": "3.5.17",
+            "download_url": "https://gitlab.freedesktop.org/xorg/lib/libxpm/-/archive/libXpm-3.5.17/libxpm-libXpm-3.5.17.zip",
+            "xorgproto": "https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/archive/master/xorgproto-master.zip",
+            "libx11": "https://gitlab.freedesktop.org/xorg/lib/libx11/-/archive/master/libx11-master.zip",
+            "install_script": "install_libxpm.php",
             "mandatory": false,
             "dependancies": []
         },
