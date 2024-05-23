@@ -27,11 +27,7 @@ if(!download_file($lib->download_url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASE
 if(!$firstdir = zip_first_dir($tmpfile)) exit_error("Invalid zip archive");
 if(!unzip($tmpfile, ARCH_PATH)) exit_error();
 if(!rename_wait(ARCH_PATH . $firstdir, $path)) exit_error("Can't rename library path");
-
-
-// Copy static solution files
-if(!@copy(__DIR__ . '\libssh2.sln', $path . 'win32\libssh2.sln')) exit_error("Can't copy solution file");
-if(!@copy(__DIR__ . '\libssh2.vcxproj', $path . 'win32\libssh2.vcxproj')) exit_error("Can't copy project file");
+if(!unzip(__DIR__ . '\libssh2-msvc.zip', $path . 'win32')) exit_error("Can't unzip msvc project");
 
 
 // Compile static libssh2
