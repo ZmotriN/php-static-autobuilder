@@ -63,7 +63,7 @@ if(!download_file($lib->xorgproto, $protofile, pathinfo($protofile, PATHINFO_BAS
 
 // Download libx11 headers
 $libx11file = TMP.pathinfo($lib->libx11, PATHINFO_BASENAME);
-if(!download_file($lib->libx11, $libx11file, pathinfo($libx11file, PATHINFO_BASENAME))) exit_error("Can't download proto headers");
+if(!download_file($lib->libx11, $libx11file, pathinfo($libx11file, PATHINFO_BASENAME))) exit_error("Can't download libx11 headers");
 
 
 // Install libxpm

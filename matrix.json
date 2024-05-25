@@ -250,6 +250,15 @@
             "libraries": ["mpir"]
         },
         {
+            "name": "imap",
+            "repo": "",
+            "builtin": true,
+            "mandatory": false,
+            "switch": "--with-imap",
+            "dependancies": [],
+            "libraries": ["c-client"]
+        },
+        {
             "name": "mhash",
             "repo": "",
             "builtin": true,
@@ -889,6 +898,51 @@
             "switch": "--enable-componere",
             "dependancies": [],
             "libraries": []
+        },
+        {
+            "name": "zstd",
+            "repo": "",
+            "url": "https://pecl.php.net/get/zstd-0.13.3.tgz",
+            "version": "0.13.3",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-zstd",
+            "dependancies": [],
+            "libraries": ["libzstd"]
+        },
+        {
+            "name": "ev",
+            "repo": "",
+            "url": "https://pecl.php.net/get/ev-1.1.6RC1.tgz",
+            "version": "1.1.6RC1",
+            "install_script": "ext_ev.php",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-ev",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "brotli",
+            "repo": "",
+            "url": "https://pecl.php.net/get/brotli-0.15.0.tgz",
+            "version": "0.15.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-brotli",
+            "dependancies": [],
+            "libraries": ["brotli"]
+        },
+        {
+            "name": "mailparse",
+            "repo": "",
+            "url": "https://pecl.php.net/get/mailparse-3.1.6.tgz",
+            "version": "3.1.6",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-mailparse",
+            "dependancies": ["mbstring"],
+            "libraries": []
         }
     ],
 
@@ -911,15 +965,6 @@
             "dependancies": []
         },
         {
-            "name": "libzip",
-            "version": "1.7.1-1",
-            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libzip-1.7.1-1-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\libzip_a.lib",
-            "mandatory": false,
-            "dependancies": []
-        },
-        {
             "name": "liblzma",
             "version": "5.2.5",
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/liblzma-5.2.5-vs16-x64.zip",
@@ -934,6 +979,23 @@
             "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libbzip2-1.0.8-vs16-x64.zip",
             "install_script": "install_library.php",
             "install_check": "lib\\libbz2_a.lib",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libzstd",
+            "version": "1.5.6",
+            "download_url": "https://github.com/facebook/zstd/archive/refs/tags/v1.5.6.zip",
+            "install_script": "install_libzstd.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libzip",
+            "version": "1.7.1-1",
+            "download_url": "https://downloads.php.net/~windows/php-sdk/deps/vs16/x64/libzip-1.7.1-1-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\libzip_a.lib",
             "mandatory": false,
             "dependancies": []
         },
@@ -1188,6 +1250,7 @@
             "version": "1.9.1",
             "download_url": "https://github.com/maxmind/libmaxminddb/releases/download/1.9.1/libmaxminddb-1.9.1.tar.gz",
             "install_script": "install_libmaxminddb.php",
+            "GeoLite_mmdb": "https://github.com/P3TERX/GeoLite.mmdb",
             "mandatory": false,
             "dependancies": []
         },
@@ -1276,6 +1339,30 @@
             "version": "5.8.0",
             "download_url": "https://github.com/htacg/tidy-html5/archive/refs/tags/5.8.0.zip",
             "install_script": "install_libtidy.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libuv",
+            "version": "1.48.0",
+            "download_url": "https://github.com/libuv/libuv/archive/refs/tags/v1.48.0.zip",
+            "install_script": "install_libuv.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "brotli",
+            "version": "1.1.0",
+            "download_url": "https://github.com/google/brotli/archive/refs/tags/v1.1.0.zip",
+            "install_script": "install_brotli.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "mpdecimal",
+            "version": "4.0.0",
+            "download_url": "https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-4.0.0.zip",
+            "install_script": "install_mpdecimal.php",
             "mandatory": false,
             "dependancies": []
         }
