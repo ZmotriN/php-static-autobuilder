@@ -30,9 +30,7 @@ if(!unzip(__DIR__ . '\libpng-msvc.zip', $path . 'projects')) exit_error("Can't u
 
 
 // Find zlib
-foreach($MATRIX->libraries as $_lib)
-    if($_lib->name == 'zlib')
-        break;
+foreach($MATRIX->libraries as $_lib) if($_lib->name == 'zlib') break;
 if($_lib->name != 'zlib') exit_error("Can't find zlib");
 $zlib = $_lib->name . '-' . $_lib->version;
 if(!is_dir(ARCH_PATH . $zlib)) exit_error("Can't find zlib");

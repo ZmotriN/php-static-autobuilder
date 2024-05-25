@@ -943,6 +943,73 @@
             "switch": "--enable-mailparse",
             "dependancies": ["mbstring"],
             "libraries": []
+        },
+        {
+            "name": "bsdiff",
+            "repo": "",
+            "url": "https://pecl.php.net/get/bsdiff-0.1.2.tgz",
+            "version": "0.1.2",
+            "install_script": "ext_bsdiff.php",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-bsdiff",
+            "dependancies": ["bz2"],
+            "libraries": []
+        },
+        {
+            "name": "ip2location",
+            "repo": "",
+            "url": "https://pecl.php.net/get/ip2location-8.2.0.tgz",
+            "version": "8.2.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-ip2location",
+            "dependancies": [],
+            "libraries": ["ip2location"]
+        },
+        {
+            "name": "ip2proxy",
+            "repo": "",
+            "url": "https://pecl.php.net/get/ip2proxy-3.0.3.tgz",
+            "version": "3.0.3",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-ip2proxy",
+            "dependancies": [],
+            "libraries": ["ip2proxy"]
+        },
+        {
+            "name": "pcsc",
+            "repo": "",
+            "url": "https://pecl.php.net/get/pcsc-0.5.1.tgz",
+            "version": "0.5.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-pcsc",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "stomp",
+            "repo": "",
+            "url": "https://pecl.php.net/get/stomp-2.0.3.tgz",
+            "version": "2.0.3",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-stomp",
+            "dependancies": [],
+            "libraries": ["openssl"]
+        },
+        {
+            "name": "zephir_parser",
+            "repo": "",
+            "url": "https://pecl.php.net/get/zephir_parser-1.6.0.tgz",
+            "version": "1.6.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-zephir-parser",
+            "dependancies": [],
+            "libraries": []
         }
     ],
 
@@ -1363,6 +1430,23 @@
             "version": "4.0.0",
             "download_url": "https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-4.0.0.zip",
             "install_script": "install_mpdecimal.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "ip2location",
+            "version": "8.6.1-1",
+            "download_url": "https://github.com/chrislim2888/IP2Location-C-Library/archive/refs/heads/master.zip",
+            "win_patch_url": "https://raw.githubusercontent.com/lexylein/IP2Location-C-Library/patch-1/libIP2Location/IP2Location.cz",
+            "install_script": "install_ip2location.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "ip2proxy",
+            "version": "4.1.2",
+            "download_url": "https://github.com/ip2location/ip2proxy-c/archive/refs/tags/4.1.2.zip",
+            "install_script": "install_ip2proxy.php",
             "mandatory": false,
             "dependancies": []
         }
