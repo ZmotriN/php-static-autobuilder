@@ -1010,6 +1010,28 @@
             "switch": "--enable-zephir-parser",
             "dependancies": [],
             "libraries": []
+        },
+        {
+            "name": "xdiff",
+            "repo": "",
+            "url": "https://pecl.php.net/get/xdiff-2.1.1.tgz",
+            "version": "2.1.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-xdiff",
+            "dependancies": [],
+            "libraries": ["libxdiff"]
+        },
+        {
+            "name": "crypto",
+            "repo": "",
+            "url": "https://pecl.php.net/get/crypto-0.3.2.tgz",
+            "version": "0.3.2",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-crypto",
+            "dependancies": ["openssl"],
+            "libraries": ["openssl"]
         }
     ],
 
@@ -1089,6 +1111,14 @@
             "install_script": "install_libssh2.php",
             "mandatory": false,
             "dependancies": ["openssl", "zlib"]
+        },
+        {
+            "name": "c-ares",
+            "version": "1.29.0",
+            "download_url": "https://github.com/c-ares/c-ares/archive/refs/tags/cares-1_29_0.zip",
+            "install_script": "install_cares.php",
+            "mandatory": false,
+            "dependancies": []
         },
         {
             "name": "curl",
@@ -1447,6 +1477,23 @@
             "version": "4.1.2",
             "download_url": "https://github.com/ip2location/ip2proxy-c/archive/refs/tags/4.1.2.zip",
             "install_script": "install_ip2proxy.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "jsonc",
+            "version": "0.17",
+            "download_url": "https://github.com/json-c/json-c/archive/refs/tags/json-c-0.17-20230812.zip",
+            "install_script": "install_jsonc.php",
+            "mandatory": false,
+            "dependancies": []
+        },
+        {
+            "name": "libxdiff",
+            "version": "0.23",
+            "download_url": "https://windows.php.net/downloads/pecl/deps/libxdiff-0.23-vs16-x64.zip",
+            "install_script": "install_library.php",
+            "install_check": "lib\\xdiff_a.lib",
             "mandatory": false,
             "dependancies": []
         }
