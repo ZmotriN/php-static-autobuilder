@@ -22,7 +22,7 @@ const MASTER = DIR.'master\\';
 const CONFIG = DIR.'configs\\';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 const MAX_BUFFER_WIDTH = 100;
-const SPEED_DEV = false;
+const SPEED_DEV = true;
 
 
 draw_header("PHP Static Autobuilder");
@@ -354,9 +354,13 @@ foreach($MATRIX->libraries as $lib)
 /**
  * Install libraries
  */
-foreach($MATRIX->libraries as $lib)
-    if(in_array($lib->name, $libraries))
+foreach($MATRIX->libraries as $lib) {
+    if(in_array($lib->name, $libraries)){
         include(MASTER.'libraries\\' . $lib->install_script);
+        unset($files);
+    }
+}
+        
 
 
 /**

@@ -1032,6 +1032,52 @@
             "switch": "--with-crypto",
             "dependancies": ["openssl"],
             "libraries": ["openssl"]
+        },
+        {
+            "name": "svm",
+            "repo": "",
+            "url": "https://pecl.php.net/get/svm-0.2.3.tgz",
+            "version": "0.2.3",
+            "install_script": "ext_svm.php",
+            "libsvm": "https://github.com/cjlin1/libsvm/archive/refs/tags/v332.zip",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--with-svm",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "uopz",
+            "repo": "",
+            "url": "https://pecl.php.net/get/uopz-7.1.1.tgz",
+            "version": "7.1.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-uopz",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "psr",
+            "repo": "",
+            "url": "https://pecl.php.net/get/psr-1.2.0.tgz",
+            "version": "1.2.0",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-psr",
+            "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "var_representation",
+            "repo": "",
+            "url": "https://pecl.php.net/get/var_representation-0.1.4.tgz",
+            "version": "0.1.4",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-var_representation",
+            "dependancies": [],
+            "libraries": []
         }
     ],
 
@@ -1467,7 +1513,7 @@
             "name": "ip2location",
             "version": "8.6.1-1",
             "download_url": "https://github.com/chrislim2888/IP2Location-C-Library/archive/refs/heads/master.zip",
-            "win_patch_url": "https://raw.githubusercontent.com/lexylein/IP2Location-C-Library/patch-1/libIP2Location/IP2Location.cz",
+            "win_patch_url": "https://raw.githubusercontent.com/lexylein/IP2Location-C-Library/patch-1/libIP2Location/IP2Location.c",
             "install_script": "install_ip2location.php",
             "mandatory": false,
             "dependancies": []

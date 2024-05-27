@@ -60,6 +60,7 @@ $files[$compdir . 'pthreadVC2.lib'] = 'lib\pthreadVC2.lib';
 $files[$path . '_ptw32.h'] = 'include\_ptw32.h';
 $files[$path . 'sched.h'] = 'include\sched.h';
 $files[$path . 'semaphore.h'] = 'include\semaphore.h';
+$files[$path . 'pthread.h'] = 'include\pthread.h';
 if(!create_build($builddir, $files)) draw_status($label, "failed", Red, true);
 $contents = file_get_contents($builddir . 'include\sched.h');
 $contents = str_replace('  typedef __int64', '  //typedef __int64', $contents);

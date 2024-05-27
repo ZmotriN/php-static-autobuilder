@@ -8,25 +8,13 @@
 ### Changed
 
 ### Fixed
+- Fix messy library builds
 
 ## [0.1.1] - 2024-05-18
-
-### Added
-- haru pdf support
-- dio serial support
-- sync support
-- win32service support
-- win32ps support
-- ds Specialized data structures support
-- teds Tentative Extra Data Structures support
-- jsonpath support
-- msgpack support
-- simdjson support
-- xhprof support
 
 ### Changed
 - git clone and pull recursive
 
 ### Fixed
 - draw_status label fix
-- yaml build script nameA
+- yaml build script name
