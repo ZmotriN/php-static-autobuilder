@@ -37,7 +37,9 @@ if (!empty($ext->repo)) {
         if (!download_file($ext->url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASENAME))) exit_error();
         if (!untar($tmpfile, EXT_PATH)) exit_error();
 
-        $tmpdir = EXT_PATH . $ext->name . '-' . $ext->version;
+        if(!empty($ext->archive)) $tmpdir = EXT_PATH . $ext->archive;
+        else $tmpdir = EXT_PATH . $ext->name . '-' . $ext->version;
+
         if (!is_dir($tmpdir)) exit_error("Can't find extension folder");
         if (!rename_wait($tmpdir, $path)) exit_error("Can't rename extension folder");
         file_put_contents($path . 'version-static.txt', $ext->version);
@@ -58,7 +60,9 @@ if (!empty($ext->repo)) {
             if (!download_file($ext->url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASENAME))) exit_error();
             if (!untar($tmpfile, EXT_PATH)) exit_error();
 
-            $tmpdir = EXT_PATH . $ext->name . '-' . $ext->version;
+            if(!empty($ext->archive)) $tmpdir = EXT_PATH . $ext->archive;
+            else $tmpdir = EXT_PATH . $ext->name . '-' . $ext->version;
+            
             if (!is_dir($tmpdir)) exit_error("Can't find extension folder");
             if (!rename_wait($tmpdir, $path)) exit_error("Can't rename extension folder");
             file_put_contents($path . 'version-static.txt', $ext->version);
