@@ -1,4 +1,10 @@
 # PHPSAB - PHP Static Autobuilder
+
+![PHP Version](https://img.shields.io/badge/PHP-8.3.7-blue)
+![Builder](https://img.shields.io/badge/VS16-x64-a679dd)
+![PHPSAB Version](https://img.shields.io/badge/Version-0.1.1-red)
+
+
 PHP Static Autobuilder is script that let you build static single PHP Embed SAPI application for Windows. It take care of download, compile and install PHP and all of its dependencies for you.
 
 ## Warning!
