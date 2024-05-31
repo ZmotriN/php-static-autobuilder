@@ -1078,6 +1078,18 @@
             "switch": "--enable-var_representation",
             "dependancies": [],
             "libraries": []
+        },
+        {
+            "name": "rar",
+            "repo": "",
+            "url": "https://github.com/remicollet/php-rar/archive/refs/heads/issue-php82.zip",
+            "version": "4.2.0-1",
+            "archive": "php-rar-issue-php82",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-rar",
+            "dependancies": [],
+            "libraries": []
         }
     ],
 
@@ -1535,9 +1547,8 @@
         {
             "name": "libxdiff",
             "version": "0.23",
-            "download_url": "https://windows.php.net/downloads/pecl/deps/libxdiff-0.23-vs16-x64.zip",
-            "install_script": "install_library.php",
-            "install_check": "lib\\xdiff_a.lib",
+            "download_url": "http://www.xmailserver.org/libxdiff-0.23.tar.gz",
+            "install_script": "install_libxdiff.php",
             "mandatory": false,
             "dependancies": []
         },

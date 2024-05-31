@@ -35,7 +35,9 @@ if (!empty($ext->repo)) {
             $tmpfile = preg_replace('#\.tgz$#i', '.tar.gz', $tmpfile);
 
         if (!download_file($ext->url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASENAME))) exit_error();
-        if (!untar($tmpfile, EXT_PATH)) exit_error();
+        if (pathinfo($tmpfile, PATHINFO_EXTENSION) == 'zip') {
+            if (!unzip($tmpfile, EXT_PATH)) exit_error();
+        } elseif (!untar($tmpfile, EXT_PATH)) exit_error();
 
         if(!empty($ext->archive)) $tmpdir = EXT_PATH . $ext->archive;
         else $tmpdir = EXT_PATH . $ext->name . '-' . $ext->version;
@@ -58,7 +60,9 @@ if (!empty($ext->repo)) {
                 $tmpfile = preg_replace('#\.tgz$#i', '.tar.gz', $tmpfile);
 
             if (!download_file($ext->url, $tmpfile, pathinfo($tmpfile, PATHINFO_BASENAME))) exit_error();
-            if (!untar($tmpfile, EXT_PATH)) exit_error();
+            if (pathinfo($tmpfile, PATHINFO_EXTENSION) == 'zip') {
+                if (!unzip($tmpfile, EXT_PATH)) exit_error();
+            } elseif (!untar($tmpfile, EXT_PATH)) exit_error();
 
             if(!empty($ext->archive)) $tmpdir = EXT_PATH . $ext->archive;
             else $tmpdir = EXT_PATH . $ext->name . '-' . $ext->version;

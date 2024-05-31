@@ -60,16 +60,20 @@ else draw_status($label, "complete", Green);
 $label = "Install " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 $builddir = $path . 'build\\';
+
 $files[$path .'build-win\lib\Release\event.lib'] = 'lib\libevent.lib';
 $files[$path .'build-win\lib\Release\event_core.lib'] = 'lib\libevent_core.lib';
 $files[$path .'build-win\lib\Release\event_extra.lib'] = 'lib\libevent_extras.lib';
 $files[$path .'build-win\lib\Release\event_openssl.lib'] = 'lib\libevent_openssl.lib';
+
 $inctmp = $path . 'include\\';
 foreach(dig($inctmp . '*.h') as $file)
     $files[$file] = 'include\\' . str_replace($inctmp, '', $file);
+
 $inctmp = $path . 'build-win\include\\';
 foreach(dig($inctmp . '*.h') as $file) 
     $files[$file] = 'include\\' . str_replace($inctmp, '', $file);
+
 if(!create_build($builddir, $files)) draw_status($label, "failed", Red, true);
 if(!install_deps($builddir)) draw_status($label, "failed", Red, true);
 else draw_status($label, "complete", Green);
