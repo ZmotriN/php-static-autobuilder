@@ -8,6 +8,11 @@
 ### Changed
 
 ### Fixed
+
+
+## [0.1.2] - 2024-05-31
+
+### Fixed
 - Fix messy library builds
 
 

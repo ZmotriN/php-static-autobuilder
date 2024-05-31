@@ -14,7 +14,7 @@
 // TODO: separate update command
 
 
-const VERSION = "0.1.1";
+const VERSION = "0.1.2";
 const TMP = DIR.'tmp\\';
 const LOG = DIR.'logs\\';
 const BUILD = DIR.'build\\';
