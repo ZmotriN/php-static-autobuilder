@@ -1003,8 +1003,8 @@
         {
             "name": "zephir_parser",
             "repo": "",
-            "url": "https://pecl.php.net/get/zephir_parser-1.6.0.tgz",
-            "version": "1.6.0",
+            "url": "https://pecl.php.net/get/zephir_parser-1.6.1.tgz",
+            "version": "1.6.1",
             "builtin": false,
             "mandatory": false,
             "switch": "--enable-zephir-parser",
@@ -1089,6 +1089,17 @@
             "mandatory": false,
             "switch": "--enable-rar",
             "dependancies": [],
+            "libraries": []
+        },
+        {
+            "name": "mongodb",
+            "repo": "",
+            "url": "https://pecl.php.net/get/mongodb-1.19.1.tgz",
+            "version": "1.19.1",
+            "builtin": false,
+            "mandatory": false,
+            "switch": "--enable-mongodb --with-mongodb-client-side-encryption --with-mongodb-sasl",
+            "dependancies": ["openssl"],
             "libraries": []
         }
     ],

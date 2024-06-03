@@ -50,9 +50,10 @@ else draw_status($label, "complete", Green);
 // Install libssh2
 $label = "Install " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
-
 $builddir = $path . 'build\\';
+
 $files[$path . 'win32\Release_lib\libssh2.lib'] = 'lib\libssh2.lib';
+$files[$path . 'win32\Release_lib\libssh2.pdb'] = 'lib\libssh2.pdb';
 $files[$path . 'include\libssh2.h'] = 'include\libssh2\libssh2.h';
 $files[$path . 'include\libssh2_publickey.h'] = 'include\libssh2\libssh2_publickey.h';
 $files[$path . 'include\libssh2_sftp.h'] = 'include\libssh2\libssh2_sftp.h';

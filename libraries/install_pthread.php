@@ -54,6 +54,7 @@ else draw_status($label, "complete", Green);
 $label = "Install " . $lib->name . '-' . $lib->version;
 draw_line($label, "running", Yellow);
 $builddir = $path . 'build\\';
+
 copy($compdir . 'pthread_static_lib.lib', $compdir . 'pthreadVC2.lib');
 $files[$compdir . 'pthread_static_lib.lib'] = 'lib\pthreadVC3.lib';
 $files[$compdir . 'pthreadVC2.lib'] = 'lib\pthreadVC2.lib';
@@ -61,10 +62,13 @@ $files[$path . '_ptw32.h'] = 'include\_ptw32.h';
 $files[$path . 'sched.h'] = 'include\sched.h';
 $files[$path . 'semaphore.h'] = 'include\semaphore.h';
 $files[$path . 'pthread.h'] = 'include\pthread.h';
+
 if(!create_build($builddir, $files)) draw_status($label, "failed", Red, true);
+
 $contents = file_get_contents($builddir . 'include\sched.h');
 $contents = str_replace('  typedef __int64', '  //typedef __int64', $contents);
 file_put_contents($builddir . 'include\sched.h', $contents);
+
 if(!install_deps($builddir)) draw_status($label, "failed", Red, true);
 else draw_status($label, "complete", Green);
 
