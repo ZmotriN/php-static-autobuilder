@@ -1,0 +1,11 @@
+--- "..\\php-8.3.8-original\\ext\\intl\\config.w32"	2024-06-04 10:53:17.000000000 -0400
++++ "ext\\intl\\config.w32"	2024-06-05 09:58:12.564882500 -0400
+@@ -6,7 +6,7 @@
+ 	if (CHECK_LIB("icuuc.lib", "intl", PHP_INTL) &&
+ 					CHECK_HEADER_ADD_INCLUDE("unicode/utf.h", "CFLAGS_INTL")) {
+ 		// always build as shared - zend_strtod.c/ICU type conflict
+-		EXTENSION("intl", "php_intl.c intl_convert.c intl_convertcpp.cpp intl_error.c ", true,
++		EXTENSION("intl", "php_intl.c intl_convert.c intl_convertcpp.cpp intl_error.c ", PHP_INTL_SHARED,
+ 								"/I \"" + configure_module_dirname + "\" /DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
+ 		ADD_SOURCES(configure_module_dirname + "/collator", "\
+ 				collator_attr.c \

@@ -1,0 +1,251 @@
+diff -U 8 -r "..\\php-8.3.8-original\\ext\\gd/gd.c" "ext\\gd/gd.c"
+--- "..\\php-8.3.8-original\\ext\\gd/gd.c"	2024-06-04 10:53:17.000000000 -0400
++++ "ext\\gd/gd.c"	2024-06-05 10:04:37.513938600 -0400
+@@ -124,16 +124,22 @@
+ static gdIOCtx *create_stream_context_from_zval(zval *to_zval);
+ static gdIOCtx *create_stream_context(php_stream *stream, int close_stream);
+ static gdIOCtx *create_output_context(void);
+ static int _php_image_type(zend_string *data);
+ 
+ /* output streaming (formerly gd_ctx.c) */
+ static void _php_image_output_ctx(INTERNAL_FUNCTION_PARAMETERS, int image_type, char *tn);
+ 
++/* Functions for BITMAP 24bits */
++static inline unsigned char *_gdex_write_uint16le(unsigned char *ptr, uint16_t n);
++static inline unsigned char *_gdex_write_int32le(unsigned char *ptr, int32_t n);
++static inline unsigned char *_gdex_write_uint32le(unsigned char *ptr, uint32_t n);
++static unsigned char *_gdex_gdimage_to_bmp24(gdImagePtr im, size_t *size);
++
+ /*********************************************************
+  *
+  * GD Object Representation
+  *
+  ********************************************************/
+ 
+ zend_class_entry *gd_image_ce;
+ 
+@@ -3950,16 +3956,145 @@
+ 
+ 	array_init(return_value);
+ 	add_next_index_long(return_value, gdImageResolutionX(im));
+ 	add_next_index_long(return_value, gdImageResolutionY(im));
+ }
+ /* }}} */
+ 
+ 
++/* {{{ Get BITMAP 24bit matrix. */
++PHP_FUNCTION(imagegetbitmap24)
++{
++	zval *im_zval;
++	gdImagePtr im;
++	gdImagePtr imtmp = NULL;
++	unsigned char *buffer = NULL;
++	size_t buffer_size, written_size;
++	int x1, y1, x2, y2;
++
++	if (zend_parse_parameters(ZEND_NUM_ARGS(), "O", &im_zval, gd_image_ce) == FAILURE) {
++		RETURN_THROWS();
++	}
++
++	im = php_gd_libgdimageptr_from_zval_p(im_zval);
++
++	if (!gdImageTrueColor(im)) {
++		imtmp = gdImageCreateTrueColor(gdImageSX(im),gdImageSY(im));
++		gdImageCopyResampled(imtmp,im,0,0,0,0,gdImageSX(im),gdImageSY(im),gdImageSX(im),gdImageSY(im));
++		buffer = _gdex_gdimage_to_bmp24(imtmp, &buffer_size);
++		gdImageDestroy(imtmp);
++	} else {
++		buffer = _gdex_gdimage_to_bmp24(im, &buffer_size);
++	}
++	if (buffer == NULL) {
++		RETURN_BOOL(0);
++	}
++
++	RETURN_STRINGL(buffer,buffer_size,1);
++	efree(buffer);
++}
++/* }}} */
++
++
++
++
++static inline unsigned char *_gdex_write_uint16le(unsigned char *ptr, uint16_t n) {
++	*ptr++ = (unsigned char)(0xff & n);
++	*ptr++ = (unsigned char)(0xff & (n >> 8));
++	return ptr;
++}
++
++static inline unsigned char *_gdex_write_int32le(unsigned char *ptr, int32_t n) {
++	*ptr++ = (unsigned char)(0xff & n);
++	*ptr++ = (unsigned char)(0xff & (n >> 8));
++	*ptr++ = (unsigned char)(0xff & (n >> 16));
++	*ptr++ = (unsigned char)(0xff & (n >> 24));
++	return ptr;
++}
++
++static inline unsigned char *_gdex_write_uint32le(unsigned char *ptr, uint32_t n) {
++	*ptr++ = (unsigned char)(0xff & n);
++	*ptr++ = (unsigned char)(0xff & (n >> 8));
++	*ptr++ = (unsigned char)(0xff & (n >> 16));
++	*ptr++ = (unsigned char)(0xff & (n >> 24));
++	return ptr;
++}
++
++
++
++static unsigned char *_gdex_gdimage_to_bmp24(gdImagePtr im, size_t *size) {
++	unsigned char *buffer, *ptr;
++	size_t buffer_size, image_offset, image_size, line_size;
++	int x, y, width, height;
++
++	/* get image size */
++	width = gdImageSX(im);
++	height = gdImageSY(im);
++
++	/* calculate required memory size */
++	image_offset = 14 + 40;
++	line_size = ((size_t)width * 24 + 31) / 32 * 4;
++	image_size = line_size * (size_t)height;
++	buffer_size = image_offset + image_size;
++
++	/* allocate */
++	buffer = (unsigned char *)emalloc(buffer_size);
++	if (buffer == NULL) {
++		php_error_docref(NULL, E_WARNING,
++				"Failed to allocate memory for %zu bytes", buffer_size);
++		return NULL;
++	}
++	ptr = buffer;
++
++	/* write BITMAPFILEHEADER */
++	*ptr++ = 'B'; /* bfType */
++	*ptr++ = 'M'; /* bfType */
++	ptr = _gdex_write_uint32le(ptr, (uint32_t)buffer_size); /* bfSize */
++	ptr = _gdex_write_uint16le(ptr, 0); /* bfReserved1 */
++	ptr = _gdex_write_uint16le(ptr, 0); /* bfReserved2 */
++	ptr = _gdex_write_uint32le(ptr, (uint32_t)image_offset); /* bfOffBits */
++
++	/* write BITMAPINFOHEADER */
++	ptr = _gdex_write_uint32le(ptr, 40); /* biSize */
++	ptr = _gdex_write_int32le(ptr, (int32_t)width);  /* biWidth */
++	ptr = _gdex_write_int32le(ptr, (int32_t)height); /* biHeight */
++	ptr = _gdex_write_uint16le(ptr, 1);  /* biPlanes */
++	ptr = _gdex_write_uint16le(ptr, 24); /* biBitCount: 24bpp */
++	ptr = _gdex_write_uint32le(ptr, 0);  /* biCopmression: BI_RGB */
++	ptr = _gdex_write_uint32le(ptr, (uint32_t)image_size); /* biSizeImage */
++	ptr = _gdex_write_int32le(ptr, 3780); /* biXPixPerMeter: 96dpi */
++	ptr = _gdex_write_int32le(ptr, 3780); /* biYPixPerMeter: 96dpi */
++	ptr = _gdex_write_uint32le(ptr, 0); /* biClrUsed */
++	ptr = _gdex_write_uint32le(ptr, 0); /* biCirImportant */
++
++	/* write image data */
++	y = height;
++	while (y > 0) {
++		unsigned char *eol = ptr + line_size;
++		--y;
++		for (x = 0; x < width; x++) {
++			int tpixel = gdImageTrueColorPixel(im, x, y);
++			*ptr++ = (unsigned char)(0xff & gdTrueColorGetBlue(tpixel));
++			*ptr++ = (unsigned char)(0xff & gdTrueColorGetGreen(tpixel));
++			*ptr++ = (unsigned char)(0xff & gdTrueColorGetRed(tpixel));
++		}
++		while (ptr < eol) {
++			*ptr++ = '\0';
++		}
++	}
++
++	if (size != NULL) {
++		*size = buffer_size;
++	}
++	return buffer;
++}
++
++
++
+ /*********************************************************
+  *
+  * Stream Handling
+  * Formerly contained within ext/gd/gd_ctx.c and included
+  * at the the top of this file
+  *
+  ********************************************************/
+ 
+diff -U 8 -r "..\\php-8.3.8-original\\ext\\gd/gd_arginfo.h" "ext\\gd/gd_arginfo.h"
+--- "..\\php-8.3.8-original\\ext\\gd/gd_arginfo.h"	2024-06-04 10:53:17.000000000 -0400
++++ "ext\\gd/gd_arginfo.h"	2024-06-05 10:07:17.441221500 -0400
+@@ -570,16 +570,20 @@
+ ZEND_END_ARG_INFO()
+ 
+ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_imageresolution, 0, 1, MAY_BE_ARRAY|MAY_BE_BOOL)
+ 	ZEND_ARG_OBJ_INFO(0, image, GdImage, 0)
+ 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, resolution_x, IS_LONG, 1, "null")
+ 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, resolution_y, IS_LONG, 1, "null")
+ ZEND_END_ARG_INFO()
+ 
++ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_imagegetbitmap24, 0, 1, IS_STRING, 0)
++	ZEND_ARG_OBJ_INFO(0, image, GdImage, 0)
++ZEND_END_ARG_INFO()
++
+ 
+ ZEND_FUNCTION(gd_info);
+ ZEND_FUNCTION(imageloadfont);
+ ZEND_FUNCTION(imagesetstyle);
+ ZEND_FUNCTION(imagecreatetruecolor);
+ ZEND_FUNCTION(imageistruecolor);
+ ZEND_FUNCTION(imagetruecolortopalette);
+ ZEND_FUNCTION(imagepalettetotruecolor);
+@@ -709,16 +713,17 @@
+ ZEND_FUNCTION(imagecropauto);
+ ZEND_FUNCTION(imagescale);
+ ZEND_FUNCTION(imageaffine);
+ ZEND_FUNCTION(imageaffinematrixget);
+ ZEND_FUNCTION(imageaffinematrixconcat);
+ ZEND_FUNCTION(imagegetinterpolation);
+ ZEND_FUNCTION(imagesetinterpolation);
+ ZEND_FUNCTION(imageresolution);
++ZEND_FUNCTION(imagegetbitmap24);
+ 
+ 
+ static const zend_function_entry ext_functions[] = {
+ 	ZEND_FE(gd_info, arginfo_gd_info)
+ 	ZEND_FE(imageloadfont, arginfo_imageloadfont)
+ 	ZEND_FE(imagesetstyle, arginfo_imagesetstyle)
+ 	ZEND_FE(imagecreatetruecolor, arginfo_imagecreatetruecolor)
+ 	ZEND_FE(imageistruecolor, arginfo_imageistruecolor)
+@@ -856,16 +861,17 @@
+ 	ZEND_FE(imagecropauto, arginfo_imagecropauto)
+ 	ZEND_FE(imagescale, arginfo_imagescale)
+ 	ZEND_FE(imageaffine, arginfo_imageaffine)
+ 	ZEND_FE(imageaffinematrixget, arginfo_imageaffinematrixget)
+ 	ZEND_FE(imageaffinematrixconcat, arginfo_imageaffinematrixconcat)
+ 	ZEND_FE(imagegetinterpolation, arginfo_imagegetinterpolation)
+ 	ZEND_FE(imagesetinterpolation, arginfo_imagesetinterpolation)
+ 	ZEND_FE(imageresolution, arginfo_imageresolution)
++	ZEND_FE(imagegetbitmap24, arginfo_imagegetbitmap24)
+ 	ZEND_FE_END
+ };
+ 
+ 
+ static const zend_function_entry class_GdImage_methods[] = {
+ 	ZEND_FE_END
+ };
+ 
+@@ -952,16 +958,18 @@
+ 	REGISTER_LONG_CONSTANT("IMG_FILTER_EDGEDETECT", IMAGE_FILTER_EDGEDETECT, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMG_FILTER_GAUSSIAN_BLUR", IMAGE_FILTER_GAUSSIAN_BLUR, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMG_FILTER_SELECTIVE_BLUR", IMAGE_FILTER_SELECTIVE_BLUR, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMG_FILTER_EMBOSS", IMAGE_FILTER_EMBOSS, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMG_FILTER_MEAN_REMOVAL", IMAGE_FILTER_MEAN_REMOVAL, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMG_FILTER_SMOOTH", IMAGE_FILTER_SMOOTH, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMG_FILTER_PIXELATE", IMAGE_FILTER_PIXELATE, CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("IMG_FILTER_SCATTER", IMAGE_FILTER_SCATTER, CONST_PERSISTENT);
++	REGISTER_LONG_CONSTANT("GD_BITMAP24_HEADER", 14, CONST_PERSISTENT);
++	REGISTER_LONG_CONSTANT("GD_BITMAP24_BITS", 54, CONST_PERSISTENT);
+ #if defined(GD_VERSION_STRING)
+ 	REGISTER_STRING_CONSTANT("GD_VERSION", GD_VERSION_STRING, CONST_PERSISTENT);
+ #endif
+ #if (defined(GD_MAJOR_VERSION) && defined(GD_MINOR_VERSION) && defined(GD_RELEASE_VERSION) && defined(GD_EXTRA_VERSION))
+ 	REGISTER_LONG_CONSTANT("GD_MAJOR_VERSION", GD_MAJOR_VERSION, CONST_PERSISTENT);
+ #endif
+ #if (defined(GD_MAJOR_VERSION) && defined(GD_MINOR_VERSION) && defined(GD_RELEASE_VERSION) && defined(GD_EXTRA_VERSION))
+ 	REGISTER_LONG_CONSTANT("GD_MINOR_VERSION", GD_MINOR_VERSION, CONST_PERSISTENT);

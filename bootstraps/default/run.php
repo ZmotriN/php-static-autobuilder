@@ -1,5 +1,4 @@
 <?php
-
 if($argc <= 1 ) {
 ?>
 PHP Static Autobuilder / Default stub file.

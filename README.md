@@ -1,6 +1,6 @@
 # PHPSAB - PHP Static Autobuilder
 
-![PHP Version](https://img.shields.io/badge/PHP-8.3.7-858eb7)
+![PHP Version](https://img.shields.io/badge/PHP-8.3.8-858eb7)
 ![Builder](https://img.shields.io/badge/vs16-x64-a679dd)
 ![PHPSAB Version](https://img.shields.io/badge/Version-0.1.2-blue)
 ![Status](https://img.shields.io/badge/Status-Active-green)

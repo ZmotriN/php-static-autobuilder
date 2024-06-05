@@ -1,0 +1,58 @@
+--- "..\\php-8.3.8-original\\sapi\\embed\\php_embed.c"	2024-06-04 10:53:17.000000000 -0400
++++ "sapi\\embed\\php_embed.c"	2024-06-05 09:06:21.952716700 -0400
+@@ -14,30 +14,32 @@
+    +----------------------------------------------------------------------+
+ */
+ 
+ #include "php_embed.h"
+ #include "ext/standard/php_standard.h"
+ #include "ext/standard/dl_arginfo.h"
+ 
+ #ifdef PHP_WIN32
+-#include <io.h>
+-#include <fcntl.h>
++	#include <io.h>
++	#include <fcntl.h>
++	BOOL php_win32_ioutil_init(void);
++	void php_win32_init_gettimeofday(void);
+ #endif
+ 
+ const char HARDCODED_INI[] =
+ 	"html_errors=0\n"
+ 	"register_argc_argv=1\n"
+ 	"implicit_flush=1\n"
+ 	"output_buffering=0\n"
+ 	"max_execution_time=0\n"
+ 	"max_input_time=-1\n\0";
+ 
+ #if defined(PHP_WIN32) && defined(ZTS)
+-ZEND_TSRMLS_CACHE_DEFINE()
++// ZEND_TSRMLS_CACHE_DEFINE()
+ #endif
+ 
+ static char* php_embed_read_cookies(void)
+ {
+ 	return NULL;
+ }
+ 
+ static int php_embed_deactivate(void)
+@@ -175,16 +177,19 @@
+ 	php_tsrm_startup();
+ # ifdef PHP_WIN32
+ 	ZEND_TSRMLS_CACHE_UPDATE();
+ # endif
+ #endif
+ 
+ 	zend_signal_startup();
+ 
++	php_win32_ioutil_init();
++	php_win32_init_gettimeofday();
++
+ 	/* SAPI initialization (SINIT)
+ 	 *
+ 	 * Initialize the SAPI globals (memset to 0). After this point we can set
+ 	 * SAPI globals via the SG() macro.
+ 	 *
+ 	 * Reentrancy startup.
+ 	 *
+ 	 * This also sets 'php_embed_module.ini_entries = NULL' so we cannot
