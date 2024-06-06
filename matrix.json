@@ -1094,8 +1094,8 @@
         {
             "name": "mongodb",
             "repo": "",
-            "url": "https://pecl.php.net/get/mongodb-1.19.1.tgz",
-            "version": "1.19.1",
+            "url": "https://pecl.php.net/get/mongodb-1.19.2.tgz",
+            "version": "1.19.2",
             "builtin": false,
             "mandatory": false,
             "switch": "--enable-mongodb --with-mongodb-client-side-encryption --with-mongodb-sasl",
