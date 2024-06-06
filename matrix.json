@@ -1118,8 +1118,8 @@
     "libraries": [
         {
             "name": "openssl",
-            "version": "3.0.13",
-            "download_url": "https://www.openssl.org/source/openssl-3.0.13.tar.gz",
+            "version": "3.0.14",
+            "download_url": "https://www.openssl.org/source/openssl-3.0.14.tar.gz",
             "install_script": "install_openssl.php",
             "mandatory": false,
             "dependancies": []
